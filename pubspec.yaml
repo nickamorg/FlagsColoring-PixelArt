@@ -43,6 +43,9 @@ flutter:
 
     # SVG
     - assets/svg/earth.svg
+    - assets/svg/Europe.svg
+    - assets/svg/Africa.svg
+    - assets/svg/North America.svg
 
     # SVG
     - assets/star.svg
