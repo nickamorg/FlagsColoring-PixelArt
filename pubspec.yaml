@@ -1,0 +1,819 @@
+name: flagscoloring_pixelart
+description: A Flags Coloring - Pixel Art Android Application.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.3
+  flutter_svg: ^0.22.0
+  path_provider: ^2.0.2
+  audioplayers: ^0.19.1
+  google_mobile_ads: ^0.13.2
+  flutter_email_sender: ^5.0.2
+  launch_review: ^3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/data/countries.json
+
+    # Audio
+    - assets/audio/wrong_answer.mp3
+    - assets/audio/correct_answer.mp3
+    - assets/audio/win.mp3
+
+    # Images
+    - assets/hint.png
+    - assets/crown.png
+    - assets/world.png
+
+    # SVG
+    - assets/star.svg
+    - assets/person_empty.svg
+    - assets/person_full.svg
+    - assets/devil.svg
+    - assets/statistics.svg
+    - assets/idea.svg
+    - assets/like.svg
+    - assets/heart.svg
+
+    # Countries
+    - assets/countries/Africa/Algeria.png
+    - assets/countries/Africa/Angola.png
+    - assets/countries/Africa/Benin.png
+    - assets/countries/Africa/Botswana.png
+    - assets/countries/Africa/Burkina Faso.png
+    - assets/countries/Africa/Burundi.png
+    - assets/countries/Africa/Cameroon.png
+    - assets/countries/Africa/Cape Verde.png
+    - assets/countries/Africa/Central African Republic.png
+    - assets/countries/Africa/Chad.png
+    - assets/countries/Africa/Comoros.png
+    - assets/countries/Africa/Congo.png
+    - assets/countries/Africa/Democratic Republic of the Congo.png
+    - assets/countries/Africa/Djibouti.png
+    - assets/countries/Africa/Egypt.png
+    - assets/countries/Africa/Equatorial Guinea.png
+    - assets/countries/Africa/Eritrea.png
+    - assets/countries/Africa/Ethiopia.png
+    - assets/countries/Africa/Gabon.png
+    - assets/countries/Africa/Gambia.png
+    - assets/countries/Africa/Ghana.png
+    - assets/countries/Africa/Guinea.png
+    - assets/countries/Africa/Guinea-Bissau.png
+    - assets/countries/Africa/Ivory Coast.png
+    - assets/countries/Africa/Kenya.png
+    - assets/countries/Africa/Lesotho.png
+    - assets/countries/Africa/Liberia.png
+    - assets/countries/Africa/Libya.png
+    - assets/countries/Africa/Madagascar.png
+    - assets/countries/Africa/Malawi.png
+    - assets/countries/Africa/Mali.png
+    - assets/countries/Africa/Mauritania.png
+    - assets/countries/Africa/Mauritius.png
+    - assets/countries/Africa/Mayotte.png
+    - assets/countries/Africa/Morocco.png
+    - assets/countries/Africa/Mozambique.png
+    - assets/countries/Africa/Namibia.png
+    - assets/countries/Africa/Niger.png
+    - assets/countries/Africa/Nigeria.png
+    - assets/countries/Africa/Reunion.png
+    - assets/countries/Africa/Rwanda.png
+    - assets/countries/Africa/Saint Helena.png
+    - assets/countries/Africa/Sudan.png
+    - assets/countries/Africa/Sao Tome and Principe.png
+    - assets/countries/Africa/Senegal.png
+    - assets/countries/Africa/Seychelles.png
+    - assets/countries/Africa/Sierra Leone.png
+    - assets/countries/Africa/Somalia.png
+    - assets/countries/Africa/South Africa.png
+    - assets/countries/Africa/South Sudan.png
+    - assets/countries/Africa/Eswatini.png
+    - assets/countries/Africa/Tanzania.png
+    - assets/countries/Africa/Togo.png
+    - assets/countries/Africa/Tunisia.png
+    - assets/countries/Africa/Uganda.png
+    - assets/countries/Africa/Western Sahara.png
+    - assets/countries/Africa/Zambia.png
+    - assets/countries/Africa/Zimbabwe.png
+
+    - assets/countries/Asia/Afghanistan.png
+    - assets/countries/Asia/Armenia.png
+    - assets/countries/Asia/Azerbaijan.png
+    - assets/countries/Asia/Bahrain.png
+    - assets/countries/Asia/Bangladesh.png
+    - assets/countries/Asia/Bhutan.png
+    - assets/countries/Asia/Brunei.png
+    - assets/countries/Asia/Cambodia.png
+    - assets/countries/Asia/China.png
+    - assets/countries/Asia/Christmas Island.png
+    - assets/countries/Asia/Cocos Islands.png
+    - assets/countries/Asia/Georgia.png
+    - assets/countries/Asia/Hong Kong.png
+    - assets/countries/Asia/Japan.png
+    - assets/countries/Asia/Jordan.png
+    - assets/countries/Asia/India.png
+    - assets/countries/Asia/Indonesia.png
+    - assets/countries/Asia/Iran.png
+    - assets/countries/Asia/Iraq.png
+    - assets/countries/Asia/Israel.png
+    - assets/countries/Asia/Kazakhstan.png
+    - assets/countries/Asia/South Korea.png
+    - assets/countries/Asia/Kuwait.png
+    - assets/countries/Asia/Kyrgyzstan.png
+    - assets/countries/Asia/Laos.png
+    - assets/countries/Asia/Lebanon.png
+    - assets/countries/Asia/Macao.png
+    - assets/countries/Asia/Malaysia.png
+    - assets/countries/Asia/Maldives.png
+    - assets/countries/Asia/Mongolia.png
+    - assets/countries/Asia/Myanmar.png
+    - assets/countries/Asia/Nepal.png
+    - assets/countries/Asia/North Korea.png
+    - assets/countries/Asia/Oman.png
+    - assets/countries/Asia/Pakistan.png
+    - assets/countries/Asia/Palestine.png
+    - assets/countries/Asia/Philippines.png
+    - assets/countries/Asia/Qatar.png
+    - assets/countries/Asia/Russia.png
+    - assets/countries/Asia/Saudi Arabia.png
+    - assets/countries/Asia/Singapore.png
+    - assets/countries/Asia/Sri Lanka.png
+    - assets/countries/Asia/Syria.png
+    - assets/countries/Asia/Taiwan.png
+    - assets/countries/Asia/Tajikistan.png
+    - assets/countries/Asia/Thailand.png
+    - assets/countries/Asia/Timor-Leste.png
+    - assets/countries/Asia/Turkey.png
+    - assets/countries/Asia/Turkmenistan.png
+    - assets/countries/Asia/Uzbekistan.png
+    - assets/countries/Asia/United Arab Emirates.png
+    - assets/countries/Asia/Vietnam.png
+    - assets/countries/Asia/Yemen.png
+
+    - assets/countries/Europe/Albania.png
+    - assets/countries/Europe/Andorra.png
+    - assets/countries/Europe/Austria.png
+    - assets/countries/Europe/Belarus.png
+    - assets/countries/Europe/Belgium.png
+    - assets/countries/Europe/Bosnia and Herzegovina.png
+    - assets/countries/Europe/Bulgaria.png
+    - assets/countries/Europe/Czech Republic.png
+    - assets/countries/Europe/Croatia.png
+    - assets/countries/Europe/Cyprus.png
+    - assets/countries/Europe/Denmark.png
+    - assets/countries/Europe/Estonia.png
+    - assets/countries/Europe/Faroe Islands.png
+    - assets/countries/Europe/Finland.png
+    - assets/countries/Europe/France.png
+    - assets/countries/Europe/Germany.png
+    - assets/countries/Europe/Greece.png
+    - assets/countries/Europe/Hungary.png
+    - assets/countries/Europe/Iceland.png
+    - assets/countries/Europe/Ireland.png
+    - assets/countries/Europe/Italy.png
+    - assets/countries/Europe/Latvia.png
+    - assets/countries/Europe/Liechtenstein.png
+    - assets/countries/Europe/Lithuania.png
+    - assets/countries/Europe/Luxembourg.png
+    - assets/countries/Europe/Malta.png
+    - assets/countries/Europe/Moldova.png
+    - assets/countries/Europe/Montenegro.png
+    - assets/countries/Europe/Netherlands.png
+    - assets/countries/Europe/North Macedonia.png
+    - assets/countries/Europe/Norway.png
+    - assets/countries/Europe/Poland.png
+    - assets/countries/Europe/Romania.png
+    - assets/countries/Europe/Portugal.png
+    - assets/countries/Europe/San Marino.png
+    - assets/countries/Europe/Serbia.png
+    - assets/countries/Europe/Slovakia.png
+    - assets/countries/Europe/Slovenia.png
+    - assets/countries/Europe/Spain.png
+    - assets/countries/Europe/Sweden.png
+    - assets/countries/Europe/Switzerland.png
+    - assets/countries/Europe/Ukraine.png
+    - assets/countries/Europe/United Kingdom.png
+    - assets/countries/Europe/Vatican City.png
+    - assets/countries/Europe/Aland Islands.png
+    - assets/countries/Europe/Gibraltar.png
+    - assets/countries/Europe/Monaco.png
+    - assets/countries/Europe/Guernsey.png
+    - assets/countries/Europe/Isle of Man.png
+    - assets/countries/Europe/Svalbard and Jan Mayen.png
+
+    - assets/countries/North America/Anguilla.png
+    - assets/countries/North America/Antigua and Barbuda.png
+    - assets/countries/North America/Bahamas.png
+    - assets/countries/North America/Barbados.png
+    - assets/countries/North America/Belize.png
+    - assets/countries/North America/Bermuda.png
+    - assets/countries/North America/British Virgin Islands.png
+    - assets/countries/North America/Canada.png
+    - assets/countries/North America/Cayman Islands.png
+    - assets/countries/North America/Costa Rica.png
+    - assets/countries/North America/Cuba.png
+    - assets/countries/North America/Dominica.png
+    - assets/countries/North America/Dominican Republic.png
+    - assets/countries/North America/El Salvador.png
+    - assets/countries/North America/Greenland.png
+    - assets/countries/North America/Grenada.png
+    - assets/countries/North America/Guadeloupe.png
+    - assets/countries/North America/Guatemala.png
+    - assets/countries/North America/Haiti.png
+    - assets/countries/North America/Honduras.png
+    - assets/countries/North America/Jamaica.png
+    - assets/countries/North America/Martinique.png
+    - assets/countries/North America/Mexico.png
+    - assets/countries/North America/Montserrat.png
+    - assets/countries/North America/Nicaragua.png
+    - assets/countries/North America/Panama.png
+    - assets/countries/North America/Puerto Rico.png
+    - assets/countries/North America/Saint Barthelemy.png
+    - assets/countries/North America/Saint Kitts and Nevis.png
+    - assets/countries/North America/Saint Lucia.png
+    - assets/countries/North America/Saint Pierre and Miquelon.png
+    - assets/countries/North America/Saint Vincent and the Grenadines.png
+    - assets/countries/North America/Sint Maarten.png
+    - assets/countries/North America/Saint Martin.png
+    - assets/countries/North America/Turks and Caicos Islands.png
+    - assets/countries/North America/United States.png
+    - assets/countries/North America/U.S. Virgin Islands.png
+
+    - assets/countries/Oceania/American Samoa.png
+    - assets/countries/Oceania/Australia.png
+    - assets/countries/Oceania/Cook Islands.png
+    - assets/countries/Oceania/Fiji.png
+    - assets/countries/Oceania/French Polynesia.png
+    - assets/countries/Oceania/Guam.png
+    - assets/countries/Oceania/Kiribati.png
+    - assets/countries/Oceania/Nauru.png
+    - assets/countries/Oceania/New Caledonia.png
+    - assets/countries/Oceania/New Zealand.png
+    - assets/countries/Oceania/Norfolk Island.png
+    - assets/countries/Oceania/Niue.png
+    - assets/countries/Oceania/Palau.png
+    - assets/countries/Oceania/Papua New Guinea.png
+    - assets/countries/Oceania/Pitcairn Islands.png
+    - assets/countries/Oceania/Samoa.png
+    - assets/countries/Oceania/Solomon Islands.png
+    - assets/countries/Oceania/Tokelau.png
+    - assets/countries/Oceania/Tonga.png
+    - assets/countries/Oceania/Vanuatu.png
+    - assets/countries/Oceania/Wallis and Futuna.png
+
+    - assets/countries/South America/Argentina.png
+    - assets/countries/South America/Aruba.png
+    - assets/countries/South America/BES Islands.png
+    - assets/countries/South America/Bolivia.png
+    - assets/countries/South America/Brazil.png
+    - assets/countries/South America/Chile.png
+    - assets/countries/South America/Colombia.png
+    - assets/countries/South America/Curacao.png
+    - assets/countries/South America/Ecuador.png
+    - assets/countries/South America/Falkland Islands.png
+    - assets/countries/South America/French Guiana.png
+    - assets/countries/South America/Guyana.png
+    - assets/countries/South America/Paraguay.png
+    - assets/countries/South America/Peru.png
+    - assets/countries/South America/Suriname.png
+    - assets/countries/South America/Trinidad and Tobago.png
+    - assets/countries/South America/Uruguay.png
+    - assets/countries/South America/Venezuela.png
+
+    # Shapes
+    - assets/shapes/Africa/Algeria.png
+    - assets/shapes/Africa/Angola.png
+    - assets/shapes/Africa/Benin.png
+    - assets/shapes/Africa/Botswana.png
+    - assets/shapes/Africa/Burkina Faso.png
+    - assets/shapes/Africa/Burundi.png
+    - assets/shapes/Africa/Cameroon.png
+    - assets/shapes/Africa/Cape Verde.png
+    - assets/shapes/Africa/Central African Republic.png
+    - assets/shapes/Africa/Chad.png
+    - assets/shapes/Africa/Comoros.png
+    - assets/shapes/Africa/Congo.png
+    - assets/shapes/Africa/Democratic Republic of the Congo.png
+    - assets/shapes/Africa/Djibouti.png
+    - assets/shapes/Africa/Egypt.png
+    - assets/shapes/Africa/Equatorial Guinea.png
+    - assets/shapes/Africa/Eritrea.png
+    - assets/shapes/Africa/Ethiopia.png
+    - assets/shapes/Africa/Gabon.png
+    - assets/shapes/Africa/Gambia.png
+    - assets/shapes/Africa/Ghana.png
+    - assets/shapes/Africa/Guinea.png
+    - assets/shapes/Africa/Guinea-Bissau.png
+    - assets/shapes/Africa/Ivory Coast.png
+    - assets/shapes/Africa/Kenya.png
+    - assets/shapes/Africa/Lesotho.png
+    - assets/shapes/Africa/Liberia.png
+    - assets/shapes/Africa/Libya.png
+    - assets/shapes/Africa/Madagascar.png
+    - assets/shapes/Africa/Malawi.png
+    - assets/shapes/Africa/Mali.png
+    - assets/shapes/Africa/Mauritania.png
+    - assets/shapes/Africa/Mauritius.png
+    - assets/shapes/Africa/Mayotte.png
+    - assets/shapes/Africa/Morocco.png
+    - assets/shapes/Africa/Mozambique.png
+    - assets/shapes/Africa/Namibia.png
+    - assets/shapes/Africa/Niger.png
+    - assets/shapes/Africa/Nigeria.png
+    - assets/shapes/Africa/Reunion.png
+    - assets/shapes/Africa/Rwanda.png
+    - assets/shapes/Africa/Saint Helena.png
+    - assets/shapes/Africa/Sudan.png
+    - assets/shapes/Africa/Sao Tome and Principe.png
+    - assets/shapes/Africa/Senegal.png
+    - assets/shapes/Africa/Seychelles.png
+    - assets/shapes/Africa/Sierra Leone.png
+    - assets/shapes/Africa/Somalia.png
+    - assets/shapes/Africa/South Africa.png
+    - assets/shapes/Africa/South Sudan.png
+    - assets/shapes/Africa/Eswatini.png
+    - assets/shapes/Africa/Tanzania.png
+    - assets/shapes/Africa/Togo.png
+    - assets/shapes/Africa/Tunisia.png
+    - assets/shapes/Africa/Uganda.png
+    - assets/shapes/Africa/Western Sahara.png
+    - assets/shapes/Africa/Zambia.png
+    - assets/shapes/Africa/Zimbabwe.png
+
+    - assets/shapes/Asia/Afghanistan.png
+    - assets/shapes/Asia/Armenia.png
+    - assets/shapes/Asia/Azerbaijan.png
+    - assets/shapes/Asia/Bahrain.png
+    - assets/shapes/Asia/Bangladesh.png
+    - assets/shapes/Asia/Bhutan.png
+    - assets/shapes/Asia/Brunei.png
+    - assets/shapes/Asia/Cambodia.png
+    - assets/shapes/Asia/China.png
+    - assets/shapes/Asia/Christmas Island.png
+    - assets/shapes/Asia/Cocos Islands.png
+    - assets/shapes/Asia/Georgia.png
+    - assets/shapes/Asia/Hong Kong.png
+    - assets/shapes/Asia/Japan.png
+    - assets/shapes/Asia/Jordan.png
+    - assets/shapes/Asia/India.png
+    - assets/shapes/Asia/Indonesia.png
+    - assets/shapes/Asia/Iran.png
+    - assets/shapes/Asia/Iraq.png
+    - assets/shapes/Asia/Israel.png
+    - assets/shapes/Asia/Kazakhstan.png
+    - assets/shapes/Asia/South Korea.png
+    - assets/shapes/Asia/Kuwait.png
+    - assets/shapes/Asia/Kyrgyzstan.png
+    - assets/shapes/Asia/Laos.png
+    - assets/shapes/Asia/Lebanon.png
+    - assets/shapes/Asia/Macao.png
+    - assets/shapes/Asia/Malaysia.png
+    - assets/shapes/Asia/Maldives.png
+    - assets/shapes/Asia/Mongolia.png
+    - assets/shapes/Asia/Myanmar.png
+    - assets/shapes/Asia/Nepal.png
+    - assets/shapes/Asia/North Korea.png
+    - assets/shapes/Asia/Oman.png
+    - assets/shapes/Asia/Pakistan.png
+    - assets/shapes/Asia/Palestine.png
+    - assets/shapes/Asia/Philippines.png
+    - assets/shapes/Asia/Qatar.png
+    - assets/shapes/Asia/Russia.png
+    - assets/shapes/Asia/Saudi Arabia.png
+    - assets/shapes/Asia/Singapore.png
+    - assets/shapes/Asia/Sri Lanka.png
+    - assets/shapes/Asia/Syria.png
+    - assets/shapes/Asia/Taiwan.png
+    - assets/shapes/Asia/Tajikistan.png
+    - assets/shapes/Asia/Thailand.png
+    - assets/shapes/Asia/Timor-Leste.png
+    - assets/shapes/Asia/Turkey.png
+    - assets/shapes/Asia/Turkmenistan.png
+    - assets/shapes/Asia/Uzbekistan.png
+    - assets/shapes/Asia/United Arab Emirates.png
+    - assets/shapes/Asia/Vietnam.png
+    - assets/shapes/Asia/Yemen.png
+
+    - assets/shapes/Europe/Albania.png
+    - assets/shapes/Europe/Andorra.png
+    - assets/shapes/Europe/Austria.png
+    - assets/shapes/Europe/Belarus.png
+    - assets/shapes/Europe/Belgium.png
+    - assets/shapes/Europe/Bosnia and Herzegovina.png
+    - assets/shapes/Europe/Bulgaria.png
+    - assets/shapes/Europe/Czech Republic.png
+    - assets/shapes/Europe/Croatia.png
+    - assets/shapes/Europe/Cyprus.png
+    - assets/shapes/Europe/Denmark.png
+    - assets/shapes/Europe/Estonia.png
+    - assets/shapes/Europe/Faroe Islands.png
+    - assets/shapes/Europe/Finland.png
+    - assets/shapes/Europe/France.png
+    - assets/shapes/Europe/Germany.png
+    - assets/shapes/Europe/Greece.png
+    - assets/shapes/Europe/Hungary.png
+    - assets/shapes/Europe/Iceland.png
+    - assets/shapes/Europe/Ireland.png
+    - assets/shapes/Europe/Italy.png
+    - assets/shapes/Europe/Latvia.png
+    - assets/shapes/Europe/Liechtenstein.png
+    - assets/shapes/Europe/Lithuania.png
+    - assets/shapes/Europe/Luxembourg.png
+    - assets/shapes/Europe/Malta.png
+    - assets/shapes/Europe/Moldova.png
+    - assets/shapes/Europe/Montenegro.png
+    - assets/shapes/Europe/Netherlands.png
+    - assets/shapes/Europe/North Macedonia.png
+    - assets/shapes/Europe/Norway.png
+    - assets/shapes/Europe/Poland.png
+    - assets/shapes/Europe/Romania.png
+    - assets/shapes/Europe/Portugal.png
+    - assets/shapes/Europe/San Marino.png
+    - assets/shapes/Europe/Serbia.png
+    - assets/shapes/Europe/Slovakia.png
+    - assets/shapes/Europe/Slovenia.png
+    - assets/shapes/Europe/Spain.png
+    - assets/shapes/Europe/Sweden.png
+    - assets/shapes/Europe/Switzerland.png
+    - assets/shapes/Europe/Ukraine.png
+    - assets/shapes/Europe/United Kingdom.png
+    - assets/shapes/Europe/Vatican City.png
+    - assets/shapes/Europe/Aland Islands.png
+    - assets/shapes/Europe/Gibraltar.png
+    - assets/shapes/Europe/Monaco.png
+    - assets/shapes/Europe/Guernsey.png
+    - assets/shapes/Europe/Isle of Man.png
+    - assets/shapes/Europe/Svalbard and Jan Mayen.png
+
+    - assets/shapes/North America/Anguilla.png
+    - assets/shapes/North America/Antigua and Barbuda.png
+    - assets/shapes/North America/Bahamas.png
+    - assets/shapes/North America/Barbados.png
+    - assets/shapes/North America/Belize.png
+    - assets/shapes/North America/Bermuda.png
+    - assets/shapes/North America/British Virgin Islands.png
+    - assets/shapes/North America/Canada.png
+    - assets/shapes/North America/Cayman Islands.png
+    - assets/shapes/North America/Costa Rica.png
+    - assets/shapes/North America/Cuba.png
+    - assets/shapes/North America/Dominica.png
+    - assets/shapes/North America/Dominican Republic.png
+    - assets/shapes/North America/El Salvador.png
+    - assets/shapes/North America/Greenland.png
+    - assets/shapes/North America/Grenada.png
+    - assets/shapes/North America/Guadeloupe.png
+    - assets/shapes/North America/Guatemala.png
+    - assets/shapes/North America/Haiti.png
+    - assets/shapes/North America/Honduras.png
+    - assets/shapes/North America/Jamaica.png
+    - assets/shapes/North America/Martinique.png
+    - assets/shapes/North America/Mexico.png
+    - assets/shapes/North America/Montserrat.png
+    - assets/shapes/North America/Nicaragua.png
+    - assets/shapes/North America/Panama.png
+    - assets/shapes/North America/Puerto Rico.png
+    - assets/shapes/North America/Saint Barthelemy.png
+    - assets/shapes/North America/Saint Kitts and Nevis.png
+    - assets/shapes/North America/Saint Lucia.png
+    - assets/shapes/North America/Saint Pierre and Miquelon.png
+    - assets/shapes/North America/Saint Vincent and the Grenadines.png
+    - assets/shapes/North America/Sint Maarten.png
+    - assets/shapes/North America/Saint Martin.png
+    - assets/shapes/North America/Turks and Caicos Islands.png
+    - assets/shapes/North America/United States.png
+    - assets/shapes/North America/U.S. Virgin Islands.png
+
+    - assets/shapes/Oceania/American Samoa.png
+    - assets/shapes/Oceania/Australia.png
+    - assets/shapes/Oceania/Cook Islands.png
+    - assets/shapes/Oceania/Fiji.png
+    - assets/shapes/Oceania/French Polynesia.png
+    - assets/shapes/Oceania/Guam.png
+    - assets/shapes/Oceania/Kiribati.png
+    - assets/shapes/Oceania/Nauru.png
+    - assets/shapes/Oceania/New Caledonia.png
+    - assets/shapes/Oceania/New Zealand.png
+    - assets/shapes/Oceania/Norfolk Island.png
+    - assets/shapes/Oceania/Niue.png
+    - assets/shapes/Oceania/Palau.png
+    - assets/shapes/Oceania/Papua New Guinea.png
+    - assets/shapes/Oceania/Pitcairn Islands.png
+    - assets/shapes/Oceania/Samoa.png
+    - assets/shapes/Oceania/Solomon Islands.png
+    - assets/shapes/Oceania/Tokelau.png
+    - assets/shapes/Oceania/Tonga.png
+    - assets/shapes/Oceania/Vanuatu.png
+    - assets/shapes/Oceania/Wallis and Futuna.png
+
+    - assets/shapes/South America/Argentina.png
+    - assets/shapes/South America/Aruba.png
+    - assets/shapes/South America/BES Islands.png
+    - assets/shapes/South America/Bolivia.png
+    - assets/shapes/South America/Brazil.png
+    - assets/shapes/South America/Chile.png
+    - assets/shapes/South America/Colombia.png
+    - assets/shapes/South America/Curacao.png
+    - assets/shapes/South America/Ecuador.png
+    - assets/shapes/South America/Falkland Islands.png
+    - assets/shapes/South America/French Guiana.png
+    - assets/shapes/South America/Guyana.png
+    - assets/shapes/South America/Paraguay.png
+    - assets/shapes/South America/Peru.png
+    - assets/shapes/South America/Suriname.png
+    - assets/shapes/South America/Trinidad and Tobago.png
+    - assets/shapes/South America/Uruguay.png
+    - assets/shapes/South America/Venezuela.png
+
+
+    # Flags
+    - assets/flags/Africa/Algeria.png
+    - assets/flags/Africa/Angola.png
+    - assets/flags/Africa/Benin.png
+    - assets/flags/Africa/Botswana.png
+    - assets/flags/Africa/Burkina Faso.png
+    - assets/flags/Africa/Burundi.png
+    - assets/flags/Africa/Cameroon.png
+    - assets/flags/Africa/Cape Verde.png
+    - assets/flags/Africa/Central African Republic.png
+    - assets/flags/Africa/Chad.png
+    - assets/flags/Africa/Comoros.png
+    - assets/flags/Africa/Congo.png
+    - assets/flags/Africa/Democratic Republic of the Congo.png
+    - assets/flags/Africa/Djibouti.png
+    - assets/flags/Africa/Egypt.png
+    - assets/flags/Africa/Equatorial Guinea.png
+    - assets/flags/Africa/Eritrea.png
+    - assets/flags/Africa/Ethiopia.png
+    - assets/flags/Africa/Gabon.png
+    - assets/flags/Africa/Gambia.png
+    - assets/flags/Africa/Ghana.png
+    - assets/flags/Africa/Guinea.png
+    - assets/flags/Africa/Guinea-Bissau.png
+    - assets/flags/Africa/Ivory Coast.png
+    - assets/flags/Africa/Kenya.png
+    - assets/flags/Africa/Lesotho.png
+    - assets/flags/Africa/Liberia.png
+    - assets/flags/Africa/Libya.png
+    - assets/flags/Africa/Madagascar.png
+    - assets/flags/Africa/Malawi.png
+    - assets/flags/Africa/Mali.png
+    - assets/flags/Africa/Mauritania.png
+    - assets/flags/Africa/Mauritius.png
+    - assets/flags/Africa/Mayotte.png
+    - assets/flags/Africa/Morocco.png
+    - assets/flags/Africa/Mozambique.png
+    - assets/flags/Africa/Namibia.png
+    - assets/flags/Africa/Niger.png
+    - assets/flags/Africa/Nigeria.png
+    - assets/flags/Africa/Reunion.png
+    - assets/flags/Africa/Rwanda.png
+    - assets/flags/Africa/Saint Helena.png
+    - assets/flags/Africa/Sudan.png
+    - assets/flags/Africa/Sao Tome and Principe.png
+    - assets/flags/Africa/Senegal.png
+    - assets/flags/Africa/Seychelles.png
+    - assets/flags/Africa/Sierra Leone.png
+    - assets/flags/Africa/Somalia.png
+    - assets/flags/Africa/South Africa.png
+    - assets/flags/Africa/South Sudan.png
+    - assets/flags/Africa/Eswatini.png
+    - assets/flags/Africa/Tanzania.png
+    - assets/flags/Africa/Togo.png
+    - assets/flags/Africa/Tunisia.png
+    - assets/flags/Africa/Uganda.png
+    - assets/flags/Africa/Western Sahara.png
+    - assets/flags/Africa/Zambia.png
+    - assets/flags/Africa/Zimbabwe.png
+
+    - assets/flags/Asia/Afghanistan.png
+    - assets/flags/Asia/Armenia.png
+    - assets/flags/Asia/Azerbaijan.png
+    - assets/flags/Asia/Bahrain.png
+    - assets/flags/Asia/Bangladesh.png
+    - assets/flags/Asia/Bhutan.png
+    - assets/flags/Asia/Brunei.png
+    - assets/flags/Asia/Cambodia.png
+    - assets/flags/Asia/China.png
+    - assets/flags/Asia/Christmas Island.png
+    - assets/flags/Asia/Cocos Islands.png
+    - assets/flags/Asia/Georgia.png
+    - assets/flags/Asia/Hong Kong.png
+    - assets/flags/Asia/Japan.png
+    - assets/flags/Asia/Jordan.png
+    - assets/flags/Asia/India.png
+    - assets/flags/Asia/Indonesia.png
+    - assets/flags/Asia/Iran.png
+    - assets/flags/Asia/Iraq.png
+    - assets/flags/Asia/Israel.png
+    - assets/flags/Asia/Kazakhstan.png
+    - assets/flags/Asia/South Korea.png
+    - assets/flags/Asia/Kuwait.png
+    - assets/flags/Asia/Kyrgyzstan.png
+    - assets/flags/Asia/Laos.png
+    - assets/flags/Asia/Lebanon.png
+    - assets/flags/Asia/Macao.png
+    - assets/flags/Asia/Malaysia.png
+    - assets/flags/Asia/Maldives.png
+    - assets/flags/Asia/Mongolia.png
+    - assets/flags/Asia/Myanmar.png
+    - assets/flags/Asia/Nepal.png
+    - assets/flags/Asia/North Korea.png
+    - assets/flags/Asia/Oman.png
+    - assets/flags/Asia/Pakistan.png
+    - assets/flags/Asia/Palestine.png
+    - assets/flags/Asia/Philippines.png
+    - assets/flags/Asia/Qatar.png
+    - assets/flags/Asia/Russia.png
+    - assets/flags/Asia/Saudi Arabia.png
+    - assets/flags/Asia/Singapore.png
+    - assets/flags/Asia/Sri Lanka.png
+    - assets/flags/Asia/Syria.png
+    - assets/flags/Asia/Taiwan.png
+    - assets/flags/Asia/Tajikistan.png
+    - assets/flags/Asia/Thailand.png
+    - assets/flags/Asia/Timor-Leste.png
+    - assets/flags/Asia/Turkey.png
+    - assets/flags/Asia/Turkmenistan.png
+    - assets/flags/Asia/Uzbekistan.png
+    - assets/flags/Asia/United Arab Emirates.png
+    - assets/flags/Asia/Vietnam.png
+    - assets/flags/Asia/Yemen.png
+
+    - assets/flags/Europe/Albania.png
+    - assets/flags/Europe/Andorra.png
+    - assets/flags/Europe/Austria.png
+    - assets/flags/Europe/Belarus.png
+    - assets/flags/Europe/Belgium.png
+    - assets/flags/Europe/Bosnia and Herzegovina.png
+    - assets/flags/Europe/Bulgaria.png
+    - assets/flags/Europe/Czech Republic.png
+    - assets/flags/Europe/Croatia.png
+    - assets/flags/Europe/Cyprus.png
+    - assets/flags/Europe/Denmark.png
+    - assets/flags/Europe/Estonia.png
+    - assets/flags/Europe/Faroe Islands.png
+    - assets/flags/Europe/Finland.png
+    - assets/flags/Europe/France.png
+    - assets/flags/Europe/Germany.png
+    - assets/flags/Europe/Greece.png
+    - assets/flags/Europe/Hungary.png
+    - assets/flags/Europe/Iceland.png
+    - assets/flags/Europe/Ireland.png
+    - assets/flags/Europe/Italy.png
+    - assets/flags/Europe/Latvia.png
+    - assets/flags/Europe/Liechtenstein.png
+    - assets/flags/Europe/Lithuania.png
+    - assets/flags/Europe/Luxembourg.png
+    - assets/flags/Europe/Malta.png
+    - assets/flags/Europe/Moldova.png
+    - assets/flags/Europe/Montenegro.png
+    - assets/flags/Europe/Netherlands.png
+    - assets/flags/Europe/North Macedonia.png
+    - assets/flags/Europe/Norway.png
+    - assets/flags/Europe/Poland.png
+    - assets/flags/Europe/Romania.png
+    - assets/flags/Europe/Portugal.png
+    - assets/flags/Europe/San Marino.png
+    - assets/flags/Europe/Serbia.png
+    - assets/flags/Europe/Slovakia.png
+    - assets/flags/Europe/Slovenia.png
+    - assets/flags/Europe/Spain.png
+    - assets/flags/Europe/Sweden.png
+    - assets/flags/Europe/Switzerland.png
+    - assets/flags/Europe/Ukraine.png
+    - assets/flags/Europe/United Kingdom.png
+    - assets/flags/Europe/Vatican City.png
+    - assets/flags/Europe/Aland Islands.png
+    - assets/flags/Europe/Gibraltar.png
+    - assets/flags/Europe/Monaco.png
+    - assets/flags/Europe/Guernsey.png
+    - assets/flags/Europe/Isle of Man.png
+    - assets/flags/Europe/Svalbard and Jan Mayen.png
+
+    - assets/flags/North America/Anguilla.png
+    - assets/flags/North America/Antigua and Barbuda.png
+    - assets/flags/North America/Bahamas.png
+    - assets/flags/North America/Barbados.png
+    - assets/flags/North America/Belize.png
+    - assets/flags/North America/Bermuda.png
+    - assets/flags/North America/British Virgin Islands.png
+    - assets/flags/North America/Canada.png
+    - assets/flags/North America/Cayman Islands.png
+    - assets/flags/North America/Costa Rica.png
+    - assets/flags/North America/Cuba.png
+    - assets/flags/North America/Dominica.png
+    - assets/flags/North America/Dominican Republic.png
+    - assets/flags/North America/El Salvador.png
+    - assets/flags/North America/Greenland.png
+    - assets/flags/North America/Grenada.png
+    - assets/flags/North America/Guadeloupe.png
+    - assets/flags/North America/Guatemala.png
+    - assets/flags/North America/Haiti.png
+    - assets/flags/North America/Honduras.png
+    - assets/flags/North America/Jamaica.png
+    - assets/flags/North America/Martinique.png
+    - assets/flags/North America/Mexico.png
+    - assets/flags/North America/Montserrat.png
+    - assets/flags/North America/Nicaragua.png
+    - assets/flags/North America/Panama.png
+    - assets/flags/North America/Puerto Rico.png
+    - assets/flags/North America/Saint Barthelemy.png
+    - assets/flags/North America/Saint Kitts and Nevis.png
+    - assets/flags/North America/Saint Lucia.png
+    - assets/flags/North America/Saint Pierre and Miquelon.png
+    - assets/flags/North America/Saint Vincent and the Grenadines.png
+    - assets/flags/North America/Sint Maarten.png
+    - assets/flags/North America/Saint Martin.png
+    - assets/flags/North America/Turks and Caicos Islands.png
+    - assets/flags/North America/United States.png
+    - assets/flags/North America/U.S. Virgin Islands.png
+
+    - assets/flags/Oceania/American Samoa.png
+    - assets/flags/Oceania/Australia.png
+    - assets/flags/Oceania/Cook Islands.png
+    - assets/flags/Oceania/Fiji.png
+    - assets/flags/Oceania/French Polynesia.png
+    - assets/flags/Oceania/Guam.png
+    - assets/flags/Oceania/Kiribati.png
+    - assets/flags/Oceania/Nauru.png
+    - assets/flags/Oceania/New Caledonia.png
+    - assets/flags/Oceania/New Zealand.png
+    - assets/flags/Oceania/Norfolk Island.png
+    - assets/flags/Oceania/Niue.png
+    - assets/flags/Oceania/Palau.png
+    - assets/flags/Oceania/Papua New Guinea.png
+    - assets/flags/Oceania/Pitcairn Islands.png
+    - assets/flags/Oceania/Samoa.png
+    - assets/flags/Oceania/Solomon Islands.png
+    - assets/flags/Oceania/Tokelau.png
+    - assets/flags/Oceania/Tonga.png
+    - assets/flags/Oceania/Vanuatu.png
+    - assets/flags/Oceania/Wallis and Futuna.png
+
+    - assets/flags/South America/Argentina.png
+    - assets/flags/South America/Aruba.png
+    - assets/flags/South America/BES Islands.png
+    - assets/flags/South America/Bolivia.png
+    - assets/flags/South America/Brazil.png
+    - assets/flags/South America/Chile.png
+    - assets/flags/South America/Colombia.png
+    - assets/flags/South America/Curacao.png
+    - assets/flags/South America/Ecuador.png
+    - assets/flags/South America/Falkland Islands.png
+    - assets/flags/South America/French Guiana.png
+    - assets/flags/South America/Guyana.png
+    - assets/flags/South America/Paraguay.png
+    - assets/flags/South America/Peru.png
+    - assets/flags/South America/Suriname.png
+    - assets/flags/South America/Trinidad and Tobago.png
+    - assets/flags/South America/Uruguay.png
+    - assets/flags/South America/Venezuela.png
+
+    # Markers
+    - assets/markers/Black.svg
+    - assets/markers/Blue.svg
+    - assets/markers/Green.svg
+    - assets/markers/Red.svg
+    - assets/markers/White.svg
+    - assets/markers/Yellow.svg
+    - assets/markers/Orange.svg
+
+    # Continents
+    - assets/continents/Africa.png
+    - assets/continents/Asia.png
+    - assets/continents/Europe.png
+    - assets/continents/North America.png
+    - assets/continents/Oceania.png
+    - assets/continents/South America.png
+
+    # Continents Background
+    - assets/continents_background/Africa.png
+    - assets/continents_background/Asia.png
+    - assets/continents_background/Europe.png
+    - assets/continents_background/North America.png
+    - assets/continents_background/Oceania.png
+    - assets/continents_background/South America.png
+
+    # Religions
+    - assets/religions/Christianity.svg 
+    - assets/religions/Islam.svg
+    - assets/religions/Judaism.svg
+    - assets/religions/Buddhism.svg
+    - assets/religions/Hinduism.svg
+    - assets/religions/Atheism.svg
+    - assets/religions/Folk.svg
