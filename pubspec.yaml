@@ -42,6 +42,9 @@ flutter:
     - assets/world.png
 
     # SVG
+    - assets/svg/earth.svg
+
+    # SVG
     - assets/star.svg
     - assets/person_empty.svg
     - assets/person_full.svg

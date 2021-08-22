@@ -1,10 +1,11 @@
+import 'package:flagscoloring_pixelart/AudioPlayer.dart';
+import 'package:flagscoloring_pixelart/screens/WorldScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flagscoloring_pixelart/AppTheme.dart';
 import 'package:flagscoloring_pixelart/Countries.dart';
 // import 'package:flagscoloring_pixelart/AdManager.dart';
 import 'package:flagscoloring_pixelart/screens/ContactScreen.dart';
-import 'package:flagscoloring_pixelart/screens/CountriesScreen.dart';
 import 'package:flagscoloring_pixelart/screens/StatisticsScreen.dart';
 import 'package:launch_review/launch_review.dart';
 
@@ -18,7 +19,15 @@ class HomeScreen extends StatelessWidget {
 	}
 }
 
-class HomeState extends State<Home> {
+class HomeState extends State<Home> with TickerProviderStateMixin {
+    late final AnimationController controller = AnimationController(
+        duration: const Duration(seconds: 5),
+        vsync: this,
+    )..repeat(period: Duration(seconds: 10));
+    late final Animation<double> animation = CurvedAnimation(
+        parent: controller,
+        curve: Curves.elasticOut,
+    );
 
     @override
     void initState() {
@@ -27,6 +36,12 @@ class HomeState extends State<Home> {
         CountriesList.init().then((value) => CountriesList.loadDataStorage());
 
         // AdManager.initGoogleMobileAds();
+    }
+
+    @override
+    void dispose() {
+        controller.dispose();
+        super.dispose();
     }
 
 	@override
@@ -41,132 +56,100 @@ class HomeState extends State<Home> {
                         fit: BoxFit.cover
                     )
                 ),
-                child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                            ButtonCard(
-                                height: 150,
-                                width: MediaQuery.of(context).size.width,
-                                cardContent: Text(
-                                    'Play',
-                                    style: TextStyle(
-                                        fontSize: 70,
-                                        color: AppTheme.MAIN_COLOR
-                                    )
-                                ),
-                                screen: () => CountriesScreen()
-                            ),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                    ButtonCard(
-                                        height: 100,
-                                        width: MediaQuery.of(context).size.width / 2 - 40,
-                                        cardContent: SvgPicture.asset(
-                                            'assets/statistics.svg',
-                                            height: 50
-                                        ),
-                                        screen: () => StatisticsScreen()
-                                    ),
-                                    ButtonCard(
-                                        height: 100,
-                                        width: MediaQuery.of(context).size.width / 2 - 40,
-                                        cardContent: SvgPicture.asset(
-                                            'assets/idea.svg',
-                                            height: 50
-                                        ),
-                                        screen: () => ContactScreen()
-                                    )
-                                ]
-                            ),
-                            ButtonCard(
-                                height: 60,
-                                width: MediaQuery.of(context).size.width / 2,
-                                cardContent: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                        Text(
-                                            'Rate us',
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                color: AppTheme.MAIN_COLOR
-                                            )
-                                        ),
-                                        SvgPicture.asset(
-                                            'assets/like.svg',
-                                            height: 40
+                child: Stack(
+                    children: [
+                        Center(
+                            child: RawMaterialButton(
+                                shape: CircleBorder(),
+                                elevation: 2,
+                                onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => WorldScreen()
                                         )
-                                    ]
-                                ),
-                                callback: () => LaunchReview.launch(androidAppId: "com.zirconworks.flagscoloring_pixelart")
+                                    ).then((value) {
+                                        setState(() { });
+                                    });
+                                },
+                                child: RotationTransition(
+                                    turns: animation,
+                                    child: SvgPicture.asset(
+                                        'assets/svg/earth.svg',
+                                        height: MediaQuery.of(context).size.height - 100
+                                    )
+                                )
                             )
-                        ]
-                    )
-                ) 
-            )
-        );
-    }
-
-    Card contentCard(double height, double width, Widget displayedContent, Function screen) {
-        return Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15)
-            ),
-            child: Container(
-                width: width,
-                height: height,
-                child: TextButton(
-                    onPressed: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => screen()
+                        ),
+                        Positioned(
+                            top: 15,
+                            left: 10,
+                            child: CircleButton(icon: Icons.pie_chart, screen: () => StatisticsScreen())
+                        ),
+                        Positioned(
+                            top: 15,
+                            right: 10,
+                            child: CircleButton(icon: Icons.settings_suggest, screen: () => ContactScreen())
+                        ),
+                        Positioned(
+                            bottom: 15,
+                            right: 10,
+                            child: CircleButton(icon: Icons.favorite, action: () => LaunchReview.launch(androidAppId: "com.zirconworks.flagscoloring_pixelart"))
+                        ),
+                        Positioned(
+                            bottom: 15,
+                            left: 10,
+                            child: RawMaterialButton(
+                                onPressed: () => {
+                                    setState(() {
+                                        AudioPlayer.isAudioEnabled = !AudioPlayer.isAudioEnabled;
+                                    })
+                                },
+                                elevation: 2,
+                                fillColor: AppTheme.SECONDARY_COLOR,
+                                child: Icon(
+                                    AudioPlayer.isAudioEnabled ? Icons.volume_up : Icons.volume_off,
+                                    size: 35,
+                                    color: AppTheme.THIRD_COLOR
+                                ),
+                                enableFeedback: !AudioPlayer.isAudioEnabled,
+                                padding: EdgeInsets.all(15),
+                                shape: CircleBorder()
                             )
                         )
-                    },
-                    child: Center(
-                        child: displayedContent
-                    )
+                    ]
                 )
             )
         );
     }
 }
 
-class ButtonCard extends StatelessWidget {
-    final double height;
-    final double width;
-    final Widget cardContent;
+class CircleButton extends StatelessWidget {
     final Function? screen;
-    final Function? callback;
+    final Function? action;
+    final IconData icon;
     
-    ButtonCard({required this.height, required this.width, required this.cardContent, this.screen, this.callback});
+    CircleButton({required this.icon, this.screen, this.action});
 
     @override
     Widget build(BuildContext context) {
-        return Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15)
-            ),
-            child: Container(
-                width: width,
-                height: height,
-                child: TextButton(
-                    onPressed: () => {
-                        screen != null ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => screen!()
-                            )
-                        ) : callback!()
-                    },
-                    child: Center(
-                        child: cardContent
+        return RawMaterialButton(
+            onPressed: () => {
+                screen != null ? Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => screen!()
                     )
-                )
-            )
+                ) : action!()
+            },
+            fillColor: AppTheme.SECONDARY_COLOR,
+            child: Icon(
+                icon,
+                size: 35,
+                color: AppTheme.THIRD_COLOR
+            ),
+            padding: EdgeInsets.all(15),
+            shape: CircleBorder()
         );
     }
 }
