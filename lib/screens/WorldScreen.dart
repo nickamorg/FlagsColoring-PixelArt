@@ -21,7 +21,14 @@ class WorldState extends State<World> {
         return Scaffold(
             body: Container(
                 decoration: BoxDecoration(
-                    color: AppTheme.MAIN_COLOR,
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                            AppTheme.MAIN_COLOR,
+                            Color(0xFF085F5F)
+                        ]
+                    ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
                         image: AssetImage("assets/world.png"),

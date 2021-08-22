@@ -1,14 +1,11 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flagscoloring_pixelart/AppTheme.dart';
-import 'package:flagscoloring_pixelart/Countries.dart';
 import 'package:flagscoloring_pixelart/library.dart';
+import 'package:flutter/material.dart';
+import 'package:flagscoloring_pixelart/AppTheme.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class StatisticsScreen extends StatelessWidget {
-
-    StatisticsScreen({ Key? key}) : super(key: key);
 
 	@override
 	Widget build(BuildContext context) {
@@ -18,150 +15,234 @@ class StatisticsScreen extends StatelessWidget {
 
 class StatisticsState extends State<Statistics> {
     String backgroundImage = "assets/continents_background/${CONTINENTS[Random().nextInt(CONTINENTS.length)]}.png";
-    Set<String> continents = CONTINENTS.toSet();
 
 	@override
     Widget build(BuildContext context) {
-
         return Scaffold(
             body: Container(
                 decoration: BoxDecoration(
-                    color: AppTheme.MAIN_COLOR,
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                            AppTheme.MAIN_COLOR,
+                            Color(0xFF085F5F)
+                        ]
+                    ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
                         image: AssetImage(backgroundImage),
                         fit: BoxFit.cover
                     )
                 ),
-                child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Center(
-                        child: ListView.separated(
-                            shrinkWrap: true,
-                            separatorBuilder: (BuildContext context, int index) {
-                                return SizedBox(height: 20);
-                            },
-                            itemCount: continents.length + 1,
-                            itemBuilder: (BuildContext context, int index) {
-                                return index == 0 ? getContinentCard('World') : getContinentCard(continents.elementAt(index - 1));
-                            }
+                child: Stack(
+                    children: [
+                        Positioned(
+                            top: 20,
+                            right: 20,
+                            child: Text(
+                                '3/44',
+                                style: TextStyle(
+                                    color: AppTheme.THIRD_COLOR,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold
+                                )
+                            )
+                        ),
+                        Center(
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                    children: [
+                                        SizedBox(width: 20),
+                                        getContinent('Africa'),
+                                        getContinent('Europe'),
+                                        getContinent('North America'),
+                                        SizedBox(width: 20),
+                                    ]
+                                )
+                            )
                         )
-                    )
-                ) 
+                    ]
+                )
             )
         );
     }
 
-    Card getContinentCard(String continent) {
-        return Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15)
-            ),
-            child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Container(
-                    height: 220,
-                    width: MediaQuery.of(context).size.width - 48,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    getContinent(String continentTitle) {
+        return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Stack(
+                children: [
+                    Card(
+                        color: AppTheme.CARD_EXPAND,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)
+                        ),
+                        child: Container(
+                            padding: EdgeInsets.all(10),
+                            height: MediaQuery.of(context).size.height - 150,
+                            width: MediaQuery.of(context).size.height,
+                            child: Row(
+                                children: [
+                                    Container(
+                                        padding: EdgeInsets.all(10),
+                                        height: MediaQuery.of(context).size.height - 150,
+                                        width: MediaQuery.of(context).size.height - 150
+                                    ),
+                                    Expanded(
+                                        child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                                Column(
+                                                    children: [
+                                                        Text(
+                                                            'Easy: 2/50',
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontWeight: FontWeight.bold
+                                                            )
+                                                        ),
+                                                        SizedBox(height: 10),
+                                                        Star(height: 20)
+                                                    ]
+                                                ),
+                                                Column(
+                                                    children: [
+                                                        Text(
+                                                            'Normal: 1/50',
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontWeight: FontWeight.bold
+                                                            )
+                                                        ),
+                                                        SizedBox(height: 10),
+                                                        Star(height: 20)
+                                                    ]
+                                                ),
+                                                Column(
+                                                    children: [
+                                                        Text(
+                                                            'Total: 3/50',
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontWeight: FontWeight.bold
+                                                            )
+                                                        ),
+                                                        SizedBox(height: 10),
+                                                        Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                                Star(height: 20),
+                                                                SizedBox(width: 10),
+                                                                Star(height: 20)
+                                                            ]
+                                                        )
+                                                    ]
+                                                )
+                                            ]
+                                        )
+                                    )
+                                ]
+                            )
+                        )
+                    ),
+                    Stack(
                         children: [
-                            Text(
-                                continent,
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    color: AppTheme.MAIN_COLOR,
-                                    fontWeight: FontWeight.bold
+                            Container(
+                                height: MediaQuery.of(context).size.height - 135,
+                                color: Colors.transparent,
+                                alignment: Alignment.topCenter,
+                                child: Card(
+                                    color: AppTheme.SECONDARY_COLOR,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15)
+                                    ),
+                                    child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        height: MediaQuery.of(context).size.height - 150,
+                                        width: MediaQuery.of(context).size.height - 150,
+                                        child: SvgPicture.asset(
+                                        'assets/svg/$continentTitle.svg',
+                                        height: MediaQuery.of(context).size.height - 100,
+                                        fit: BoxFit.contain
+                                    )
+                                    )
                                 )
                             ),
-                            CountriesList.isContinentHardSolved(continent) ? Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                        Star(),
-                                        SizedBox(width: 10),
-                                        Star(),
-                                        SizedBox(width: 10),
-                                        Star()
-                                    ]
+                            Positioned(
+                                top: 20,
+                                right: 40,
+                                child: Card(
+                                    color: AppTheme.MAIN_COLOR,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15)
+                                    ),
+                                    child: Row(
+                                        children: [
+                                            Tooltip(
+                                                message: continentTitle,
+                                                preferBelow: false,
+                                                verticalOffset: 40,
+                                                showDuration: Duration(milliseconds: 500),
+                                                child: Container(
+                                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                                    height: 35,
+                                                    constraints: BoxConstraints(maxWidth: 150),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(8)
+                                                    ),
+                                                    child: Text(
+                                                        continentTitle,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                            color: AppTheme.THIRD_COLOR,
+                                                            fontWeight: FontWeight.bold
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        ]
+                                    )
                                 )
-                            ) : CountriesList.isContinentNormalSolved(continent) ? Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                        Star(),
-                                        SizedBox(width: 10),
-                                        Star()
-                                    ]
-                                )
-                            ) : CountriesList.isContinentEasySolved(continent) ? Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Star()
-                            ) : SizedBox.shrink(),
-                            Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                        Text(
-                                            'Easy: ${CountriesList.getTotalEasySolvedStarsByContinent(continent)}/${CountriesList.getTotalCountriesByContinent(continent)}',
+                            ),
+                            Positioned(
+                                top: 15,
+                                right: 15,
+                                child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                        color: AppTheme.MAIN_COLOR,
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Center(
+                                        child: Text(
+                                            '3/44',
                                             style: TextStyle(
-                                                fontSize: 20,
-                                                color: AppTheme.MAIN_COLOR
+                                                color: AppTheme.THIRD_COLOR,
+                                                fontWeight: FontWeight.bold
                                             )
                                         )
-                                    ]
+                                    )
                                 )
                             ),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                    Text(
-                                        'Normal: ${CountriesList.getTotalNormalSolvedStarsByContinent(continent)}/${CountriesList.getTotalCountriesByContinent(continent)}',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: AppTheme.MAIN_COLOR
-                                        )
+                            Positioned.fill(
+                                child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                            Star(),
+                                            SizedBox(width: 20),
+                                            Star()
+                                        ]
                                     )
-                                ]
-                            ),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                    SvgPicture.asset(
-                                        'assets/devil.svg',
-                                        height: 25
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                        '${CountriesList.getTotalHardSolvedStarsByContinent(continent)}/${CountriesList.getTotalCountriesByContinent(continent)}',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: AppTheme.MAIN_COLOR
-                                        )
-                                    )
-                                ]
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                    Text(
-                                        'Total: ${CountriesList.getTotalSolvedStarsByContinent(continent)}/${CountriesList.getTotalStarsByContinent(continent)}',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: AppTheme.MAIN_COLOR,
-                                            fontWeight: FontWeight.bold
-                                        )
-                                    ),
-                                    SizedBox(width: 10),
-                                    Star(height: 20)
-                                ]
+                                )
                             )
                         ]
                     )
-                )
+                ]
             )
         );
     }

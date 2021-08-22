@@ -8,6 +8,7 @@ import 'package:flagscoloring_pixelart/Countries.dart';
 import 'package:flagscoloring_pixelart/screens/ContactScreen.dart';
 import 'package:flagscoloring_pixelart/screens/StatisticsScreen.dart';
 import 'package:launch_review/launch_review.dart';
+import 'dart:math';
 
 class HomeScreen extends StatelessWidget {
 
@@ -21,13 +22,10 @@ class HomeScreen extends StatelessWidget {
 
 class HomeState extends State<Home> with TickerProviderStateMixin {
     late final AnimationController controller = AnimationController(
-        duration: const Duration(seconds: 5),
         vsync: this,
-    )..repeat(period: Duration(seconds: 10));
-    late final Animation<double> animation = CurvedAnimation(
-        parent: controller,
-        curve: Curves.elasticOut,
-    );
+        duration: Duration(seconds: 4)
+    )..repeat();
+
 
     @override
     void initState() {
@@ -49,7 +47,14 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         return Scaffold(
             body: Container(
                 decoration: BoxDecoration(
-                    color: AppTheme.MAIN_COLOR,
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                            AppTheme.MAIN_COLOR,
+                            Color(0xFF085F5F)
+                        ]
+                    ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
                         image: AssetImage("assets/world.png"),
@@ -72,8 +77,14 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
                                         setState(() { });
                                     });
                                 },
-                                child: RotationTransition(
-                                    turns: animation,
+                                child: AnimatedBuilder(
+                                    animation: controller,
+                                    builder: (_, child) {
+                                        return Transform.rotate(
+                                            angle: controller.value * 2 * pi,
+                                            child: child
+                                        );
+                                    },
                                     child: SvgPicture.asset(
                                         'assets/svg/earth.svg',
                                         height: MediaQuery.of(context).size.height - 100
