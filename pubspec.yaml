@@ -29,7 +29,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/data/data.json
+    - assets/data/world.json
 
     # Audio
     - assets/audio/wrong_answer.mp3
@@ -42,9 +42,13 @@ flutter:
 
     # SVG
     - assets/svg/earth.svg
-    - assets/svg/Europe.svg
+    - assets/svg/World.svg
     - assets/svg/Africa.svg
+    - assets/svg/Asia.svg
+    - assets/svg/Europe.svg
     - assets/svg/North America.svg
+    - assets/svg/Oceania.svg
+    - assets/svg/South America.svg
 
     # SVG
     - assets/star.svg

@@ -1,3 +1,4 @@
+import 'package:flagscoloring_pixelart/World.dart';
 import 'package:flagscoloring_pixelart/library.dart';
 import 'package:flutter/material.dart';
 import 'package:flagscoloring_pixelart/AppTheme.dart';
@@ -9,11 +10,11 @@ class ContinentScreen extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
-        return Continent(continentTitle: continentTitle);
+        return ContinentStatefull(continentTitle: continentTitle);
 	}
 }
 
-class ContinentState extends State<Continent> {
+class ContinentState extends State<ContinentStatefull> {
     String continentTitle = '';
     String expandedCountry = '';
 
@@ -48,27 +49,25 @@ class ContinentState extends State<Continent> {
                         Positioned(
                             top: 20,
                             right: 20,
-                            child: Text(
-                                '3/44',
-                                style: TextStyle(
-                                    color: AppTheme.THIRD_COLOR,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
-                                )
+                            child: Row(
+                                children: [
+                                    Text(
+                                        '${World.getContinentByTitle(continentTitle).totalSolvedStars}/${World.getContinentByTitle(continentTitle).totalStars}',
+                                        style: TextStyle(
+                                            color: AppTheme.THIRD_COLOR,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                        )
+                                    ),
+                                    SizedBox(width: 10),
+                                    Star(height: 20)
+                                ]
                             )
                         ),
                         Center(
                             child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
-                                child: Row(
-                                    children: [
-                                        SizedBox(width: 20),
-                                        getCountry('Andorra'),
-                                        getCountry('Bosnia and Herzegovina'),
-                                        getCountry('Netherlands'),
-                                        SizedBox(width: 20),
-                                    ]
-                                )
+                                child: getCountries()
                             )
                         )
                     ]
@@ -77,12 +76,24 @@ class ContinentState extends State<Continent> {
         );
     }
 
-    getCountry(String countryTitle) {
+    Row getCountries() {
+        List<Widget> countries = [];
+
+        countries.add(SizedBox(width: 20));
+        World.getContinentByTitle(continentTitle).countries.forEach((countryTitle) {
+            countries.add(getCountry(countryTitle));
+        });
+        countries.add(SizedBox(width: 20));
+
+        return Row(children: countries);
+    }
+
+    getCountry(Country country) {
         return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Stack(
                 children: [
-                    expandedCountry != countryTitle ? SizedBox.shrink() : Card(
+                    expandedCountry != country.title ? SizedBox.shrink() : Card(
                         color: AppTheme.CARD_EXPAND,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)
@@ -133,7 +144,7 @@ class ContinentState extends State<Continent> {
                                                                             fontWeight: FontWeight.bold
                                                                         )
                                                                     ),
-                                                                    Star(height: 20)
+                                                                    country.isEasySolved ? Star(height: 20) : SizedBox(height: 20)
                                                                 ]
                                                             )
                                                         )
@@ -206,10 +217,10 @@ class ContinentState extends State<Continent> {
                                             padding: EdgeInsets.all(0)
                                         ),
                                         onPressed: ()  { 
-                                            if (expandedCountry == countryTitle) {
+                                            if (expandedCountry == country.title) {
                                                 expandedCountry = '';
                                             } else {
-                                                expandedCountry = countryTitle;
+                                                expandedCountry = country.title;
                                             }
                                             setState(() { });
                                         },
@@ -218,9 +229,9 @@ class ContinentState extends State<Continent> {
                                             height: MediaQuery.of(context).size.height - 150,
                                             width: MediaQuery.of(context).size.height - 150,
                                             child: Image(
-                                                image: AssetImage('assets/shapes/$continentTitle/$countryTitle.png'),
+                                                image: AssetImage('assets/shapes/$continentTitle/${country.title}.png'),
                                                 height: MediaQuery.of(context).size.height - 100,
-                                                color: Colors.white,
+                                                color: country.isEasySolved ? null : Colors.white,
                                                 fit: BoxFit.contain
                                             )
                                         )
@@ -238,7 +249,7 @@ class ContinentState extends State<Continent> {
                                     child: Row(
                                         children: [
                                             Tooltip(
-                                                message: countryTitle,
+                                                message: country.title,
                                                 preferBelow: false,
                                                 verticalOffset: 40,
                                                 showDuration: Duration(milliseconds: 500),
@@ -250,7 +261,7 @@ class ContinentState extends State<Continent> {
                                                         borderRadius: BorderRadius.circular(8)
                                                     ),
                                                     child: Text(
-                                                        countryTitle,
+                                                        country.title,
                                                         overflow: TextOverflow.ellipsis,
                                                         style: TextStyle(
                                                             color: AppTheme.THIRD_COLOR,
@@ -266,14 +277,14 @@ class ContinentState extends State<Continent> {
                             Positioned.fill(
                                 child: Align(
                                     alignment: Alignment.bottomCenter,
-                                    child: Row(
+                                    child: country.isNormalSolved ? Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                             Star(),
                                             SizedBox(width: 20),
                                             Star()
                                         ]
-                                    )
+                                    ) : country.isEasySolved ? Star() : SizedBox.shrink()
                                 )
                             )
                         ]
@@ -284,10 +295,10 @@ class ContinentState extends State<Continent> {
     }
 }
 
-class Continent extends StatefulWidget {
+class ContinentStatefull extends StatefulWidget {
     final String continentTitle;
 
-    Continent({ Key? key, required this.continentTitle }) : super(key: key);
+    ContinentStatefull({ Key? key, required this.continentTitle }) : super(key: key);
 
 
 	@override

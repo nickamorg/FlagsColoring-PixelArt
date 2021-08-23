@@ -35,10 +35,10 @@ class ContactState extends State<Contact> {
                 ),
                 child: Center(
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                     Stack(
                                         children: [
@@ -49,28 +49,25 @@ class ContactState extends State<Contact> {
                                                 ),
                                                 child: Container(
                                                     padding: EdgeInsets.all(10),
-                                                    height: MediaQuery.of(context).size.height - 150,
-                                                    width: MediaQuery.of(context).size.height + 50,
+                                                    height: MediaQuery.of(context).size.height - 130,
+                                                    width: (MediaQuery.of(context).size.height - 150) * 2,
                                                     child: Row(
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                             Container(
                                                                 padding: EdgeInsets.all(10),
-                                                                height: MediaQuery.of(context).size.height - 150,
+                                                                height: MediaQuery.of(context).size.height - 130,
                                                                 width: MediaQuery.of(context).size.height - 150
                                                             ),
                                                             Expanded(
-                                                                child: Container(
-                                                                    width: 200,
-                                                                    child: formWidget()
-                                                                )
+                                                                child: formWidget()
                                                             )
                                                         ]
                                                     )
                                                 )
                                             ),
                                             Container(
-                                                height: MediaQuery.of(context).size.height - 135,
+                                                height: MediaQuery.of(context).size.height - 115,
                                                 color: Colors.transparent,
                                                 alignment: Alignment.topCenter,
                                                 child: Card(
@@ -80,7 +77,7 @@ class ContactState extends State<Contact> {
                                                     ),
                                                     child: Container(
                                                         padding: EdgeInsets.all(10),
-                                                        height: MediaQuery.of(context).size.height - 150,
+                                                        height: MediaQuery.of(context).size.height - 130,
                                                         width: MediaQuery.of(context).size.height - 150,
                                                         child: Column(
                                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

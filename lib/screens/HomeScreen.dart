@@ -3,7 +3,7 @@ import 'package:flagscoloring_pixelart/screens/WorldScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flagscoloring_pixelart/AppTheme.dart';
-import 'package:flagscoloring_pixelart/Countries.dart';
+import 'package:flagscoloring_pixelart/World.dart';
 // import 'package:flagscoloring_pixelart/AdManager.dart';
 import 'package:flagscoloring_pixelart/screens/ContactScreen.dart';
 import 'package:flagscoloring_pixelart/screens/StatisticsScreen.dart';
@@ -31,7 +31,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     void initState() {
         super.initState();
 
-        // CountriesList.init().then((value) => CountriesList.loadDataStorage());
+        World.init().then((value) => World.loadDataStorage());
 
         // AdManager.initGoogleMobileAds();
     }

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flagscoloring_pixelart/World.dart';
 import 'package:flagscoloring_pixelart/library.dart';
 import 'package:flutter/material.dart';
 import 'package:flagscoloring_pixelart/AppTheme.dart';
@@ -14,7 +15,6 @@ class StatisticsScreen extends StatelessWidget {
 }
 
 class StatisticsState extends State<Statistics> {
-    String backgroundImage = "assets/continents_background/${CONTINENTS[Random().nextInt(CONTINENTS.length)]}.png";
 
 	@override
     Widget build(BuildContext context) {
@@ -31,45 +31,34 @@ class StatisticsState extends State<Statistics> {
                     ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
-                        image: AssetImage(backgroundImage),
+                        image: AssetImage("assets/world.png"),
                         fit: BoxFit.cover
                     )
                 ),
-                child: Stack(
-                    children: [
-                        Positioned(
-                            top: 20,
-                            right: 20,
-                            child: Text(
-                                '3/44',
-                                style: TextStyle(
-                                    color: AppTheme.THIRD_COLOR,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
-                                )
-                            )
-                        ),
-                        Center(
-                            child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                    children: [
-                                        SizedBox(width: 20),
-                                        getContinent('Africa'),
-                                        getContinent('Europe'),
-                                        getContinent('North America'),
-                                        SizedBox(width: 20),
-                                    ]
-                                )
-                            )
-                        )
-                    ]
+                child: Center(
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: getContinents()
+                    )
                 )
             )
         );
     }
 
-    getContinent(String continentTitle) {
+    Row getContinents() {
+        List<Widget> continents = [];
+
+        continents.add(SizedBox(width: 20));
+        continents.add(getContinent(Continent(title: 'World')));
+        World.continents.forEach((continent) {
+            continents.add(getContinent(continent));
+        });
+        continents.add(SizedBox(width: 20));
+
+        return Row(children: continents);
+    }
+
+    getContinent(Continent continent) {
         return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Stack(
@@ -97,47 +86,40 @@ class StatisticsState extends State<Statistics> {
                                                 Column(
                                                     children: [
                                                         Text(
-                                                            'Easy: 2/50',
+                                                            getEasyText(continent),
                                                             style: TextStyle(
                                                                 color: Colors.white,
                                                                 fontWeight: FontWeight.bold
                                                             )
                                                         ),
                                                         SizedBox(height: 10),
-                                                        Star(height: 20)
+                                                        getEasyStar(continent)
                                                     ]
                                                 ),
                                                 Column(
                                                     children: [
                                                         Text(
-                                                            'Normal: 1/50',
+                                                            getNormalText(continent),
                                                             style: TextStyle(
                                                                 color: Colors.white,
                                                                 fontWeight: FontWeight.bold
                                                             )
                                                         ),
                                                         SizedBox(height: 10),
-                                                        Star(height: 20)
+                                                        getNormalStar(continent)
                                                     ]
                                                 ),
                                                 Column(
                                                     children: [
                                                         Text(
-                                                            'Total: 3/50',
+                                                            getTotalText(continent),
                                                             style: TextStyle(
                                                                 color: Colors.white,
                                                                 fontWeight: FontWeight.bold
                                                             )
                                                         ),
                                                         SizedBox(height: 10),
-                                                        Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                                Star(height: 20),
-                                                                SizedBox(width: 10),
-                                                                Star(height: 20)
-                                                            ]
-                                                        )
+                                                        getTotalStars(continent)
                                                     ]
                                                 )
                                             ]
@@ -162,11 +144,7 @@ class StatisticsState extends State<Statistics> {
                                         padding: EdgeInsets.all(10),
                                         height: MediaQuery.of(context).size.height - 150,
                                         width: MediaQuery.of(context).size.height - 150,
-                                        child: SvgPicture.asset(
-                                        'assets/svg/$continentTitle.svg',
-                                        height: MediaQuery.of(context).size.height - 100,
-                                        fit: BoxFit.contain
-                                    )
+                                        child: getPicture(continent)
                                     )
                                 )
                             ),
@@ -181,7 +159,7 @@ class StatisticsState extends State<Statistics> {
                                     child: Row(
                                         children: [
                                             Tooltip(
-                                                message: continentTitle,
+                                                message: continent.title,
                                                 preferBelow: false,
                                                 verticalOffset: 40,
                                                 showDuration: Duration(milliseconds: 500),
@@ -193,7 +171,7 @@ class StatisticsState extends State<Statistics> {
                                                         borderRadius: BorderRadius.circular(8)
                                                     ),
                                                     child: Text(
-                                                        continentTitle,
+                                                        continent.title,
                                                         overflow: TextOverflow.ellipsis,
                                                         style: TextStyle(
                                                             color: AppTheme.THIRD_COLOR,
@@ -218,10 +196,11 @@ class StatisticsState extends State<Statistics> {
                                     ),
                                     child: Center(
                                         child: Text(
-                                            '3/44',
+                                            getTotalSolvedCountriesText(continent),
                                             style: TextStyle(
                                                 color: AppTheme.THIRD_COLOR,
-                                                fontWeight: FontWeight.bold
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 10
                                             )
                                         )
                                     )
@@ -230,14 +209,7 @@ class StatisticsState extends State<Statistics> {
                             Positioned.fill(
                                 child: Align(
                                     alignment: Alignment.bottomCenter,
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                            Star(),
-                                            SizedBox(width: 20),
-                                            Star()
-                                        ]
-                                    )
+                                    child: getStars(continent)
                                 )
                             )
                         ]
@@ -245,6 +217,106 @@ class StatisticsState extends State<Statistics> {
                 ]
             )
         );
+    }
+
+    String getEasyText(Continent continent) {
+        if (continent.title == 'World') {
+            return 'Easy: ${World.totalEasySolvedCountries}/${World.totalCountries}';
+        } else {
+            return 'Easy: ${continent.totalEasySolvedStars}/${continent.countries.length}';
+        }
+    }
+
+    String getNormalText(Continent continent) {
+        if (continent.title == 'World') {
+            return 'Normal: ${World.totalNormalSolvedCountries}/${World.totalCountries}';
+        } else {
+            return 'Normal: ${continent.totalNormalSolvedStars}/${continent.countries.length}';
+        }
+    }
+
+    String getTotalText(Continent continent) {
+        if (continent.title == 'World') {
+            return 'Total: ${World.totalSolvedStars }/${World.totalStars}';
+        } else {
+            return 'Total: ${continent.totalSolvedStars}/${continent.totalStars}';
+        }
+    }
+
+    String getTotalSolvedCountriesText(Continent continent) {
+        if (continent.title == 'World') {
+            return '${World.totalSolvedCountries}/${World.totalCountries}';
+        } else {
+            return '${continent.totalSolvedCountries}/${continent.countries.length}';
+        }
+    }
+
+    SvgPicture getPicture(Continent continent) {
+        return SvgPicture.asset(
+            'assets/svg/${continent.title == 'World' ? 'World' : continent.title}.svg',
+            height: MediaQuery.of(context).size.height - 100,
+            fit: BoxFit.contain
+        );
+    }
+
+    getEasyStar(Continent continent) {
+        if (continent.title == 'World') {
+            return World.isEasySolved ? Star(height: 20) : SizedBox(height: 20);
+        } else {
+            return continent.isEasySolved ? Star(height: 20) : SizedBox(height: 20);
+        }
+    }
+
+    getNormalStar(Continent continent) {
+        if (continent.title == 'World') {
+            return World.isNormalSolved ? Star(height: 20) : SizedBox(height: 20);
+        } else {
+            return continent.isNormalSolved ? Star(height: 20) : SizedBox(height: 20);
+        }
+    }
+
+    getTotalStars(Continent continent) {
+        if (continent.title == 'World') {
+            return World.isNormalSolved ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    Star(height: 20),
+                    SizedBox(width: 10),
+                    Star(height: 20)
+                ]
+            ) : World.isEasySolved ? Star(height: 20) : SizedBox();
+        } else {
+            return continent.isNormalSolved ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    Star(height: 20),
+                    SizedBox(width: 10),
+                    Star(height: 20)
+                ]
+            ) : continent.isEasySolved ? Star(height: 20) : SizedBox(height: 20);
+        }
+    }
+
+    getStars(Continent continent) {
+        if (continent.title == 'World') {
+            return World.isNormalSolved ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    Star(),
+                    SizedBox(width: 20),
+                    Star()
+                ]
+            ) : World.isEasySolved ? Star() : SizedBox.shrink();
+        } else {
+            return continent.isNormalSolved ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    Star(),
+                    SizedBox(width: 20),
+                    Star()
+                ]
+            ) : continent.isEasySolved ? Star() : SizedBox.shrink();
+        }
     }
 }
 
