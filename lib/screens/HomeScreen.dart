@@ -31,7 +31,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     void initState() {
         super.initState();
 
-        CountriesList.init().then((value) => CountriesList.loadDataStorage());
+        // CountriesList.init().then((value) => CountriesList.loadDataStorage());
 
         // AdManager.initGoogleMobileAds();
     }

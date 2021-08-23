@@ -1,5 +1,4 @@
 import 'package:flagscoloring_pixelart/library.dart';
-import 'package:flagscoloring_pixelart/screens/GameScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flagscoloring_pixelart/AppTheme.dart';
 
@@ -113,12 +112,12 @@ class ContinentState extends State<Continent> {
                                                             padding: EdgeInsets.all(5)
                                                         ),
                                                         onPressed: () => {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
-                                                                )
-                                                            )
+                                                            // Navigator.push(
+                                                            //     context,
+                                                            //     MaterialPageRoute(
+                                                            //         builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
+                                                            //     )
+                                                            // )
                                                         },
                                                         child: Container(
                                                             padding: EdgeInsets.all(10),
@@ -150,12 +149,12 @@ class ContinentState extends State<Continent> {
                                                             padding: EdgeInsets.all(5)
                                                         ),
                                                         onPressed: () => {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
-                                                                )
-                                                            )
+                                                            // Navigator.push(
+                                                            //     context,
+                                                            //     MaterialPageRoute(
+                                                            //         builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
+                                                            //     )
+                                                            // )
                                                         },
                                                         child: Container(
                                                             padding: EdgeInsets.all(10),
