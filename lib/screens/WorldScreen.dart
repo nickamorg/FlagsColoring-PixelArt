@@ -39,8 +39,8 @@ class WorldState extends State<WorldStatefull> {
                 child: Stack(
                     children: [
                         Positioned(
-                            top: 20,
-                            right: 20,
+                            top: 15,
+                            right: 15,
                             child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -87,7 +87,8 @@ class WorldState extends State<WorldStatefull> {
             child: Stack(
                 children: [
                     Container(
-                        height: MediaQuery.of(context).size.height - 135,
+                        height: MediaQuery.of(context).size.height - 70,
+                        padding: EdgeInsets.only(top: 10),
                         color: Colors.transparent,
                         alignment: Alignment.topCenter,
                         child: Card(
@@ -109,11 +110,11 @@ class WorldState extends State<WorldStatefull> {
                                 },
                                 child: Container(
                                     padding: EdgeInsets.all(10),
-                                    height: MediaQuery.of(context).size.height - 150,
-                                    width: MediaQuery.of(context).size.height - 150,
+                                    height: MediaQuery.of(context).size.height - 100,
+                                    width: MediaQuery.of(context).size.height - 100,
                                     child: SvgPicture.asset(
                                         'assets/svg/${continent.title}.svg',
-                                        height: MediaQuery.of(context).size.height - 100,
+                                        height: MediaQuery.of(context).size.height - 50,
                                         fit: BoxFit.contain
                                     )
                                 )
@@ -121,8 +122,8 @@ class WorldState extends State<WorldStatefull> {
                         )
                     ),
                     Positioned(
-                        top: 20,
-                        right: 40,
+                        top: 39,
+                        right: 60,
                         child: Card(
                             color: AppTheme.MAIN_COLOR,
                             shape: RoundedRectangleBorder(
@@ -144,22 +145,22 @@ class WorldState extends State<WorldStatefull> {
                         )
                     ),
                     Positioned(
-                        top: 15,
+                        top: 25,
                         right: 15,
                         child: Container(
-                            height: 50,
-                            width: 50,
+                            height: 70,
+                            width: 70,
                             decoration: BoxDecoration(
                                 color: AppTheme.MAIN_COLOR,
                                 shape: BoxShape.circle
                             ),
                             child: Center(
                                 child: Text(
-                                    '${continent.totalSolvedStars}/${continent.totalStars}',
+                                    '${continent.totalSolvedCountries}/${continent.countries.length}',
                                     style: TextStyle(
                                         color: AppTheme.THIRD_COLOR,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 10,
+                                        fontSize: 15,
                                     )
                                 )
                             )
@@ -171,11 +172,11 @@ class WorldState extends State<WorldStatefull> {
                             child: continent.isNormalSolved ? Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                    Star(),
+                                    Star(height: 40),
                                     SizedBox(width: 20),
-                                    Star()
+                                    Star(height: 40)
                                 ]
-                            ) : continent.isEasySolved ? Star() : SizedBox.shrink()
+                            ) : continent.isEasySolved ? Star(height: 40) : SizedBox.shrink()
                         )
                     )
                 ]

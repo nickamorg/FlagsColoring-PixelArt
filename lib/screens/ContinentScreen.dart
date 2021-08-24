@@ -47,8 +47,8 @@ class ContinentState extends State<ContinentStatefull> {
                 child: Stack(
                     children: [
                         Positioned(
-                            top: 20,
-                            right: 20,
+                            top: 15,
+                            right: 15,
                             child: Row(
                                 children: [
                                     Text(
@@ -93,118 +93,122 @@ class ContinentState extends State<ContinentStatefull> {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Stack(
                 children: [
-                    expandedCountry != country.title ? SizedBox.shrink() : Card(
-                        color: AppTheme.CARD_EXPAND,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)
-                        ),
-                        child: Container(
-                            padding: EdgeInsets.all(10),
-                            height: MediaQuery.of(context).size.height - 150,
-                            width: MediaQuery.of(context).size.height,
-                            child: Row(
-                                children: [
-                                    Container(
-                                        padding: EdgeInsets.all(10),
-                                        height: MediaQuery.of(context).size.height - 150,
-                                        width: MediaQuery.of(context).size.height - 150
-                                    ),
-                                    Expanded(
-                                        child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                                Card(
-                                                    color: Colors.white,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10)
-                                                    ),
-                                                    child: TextButton(
-                                                        style: TextButton.styleFrom(
-                                                            padding: EdgeInsets.all(5)
+                    expandedCountry != country.title ? SizedBox.shrink() : Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Card(
+                            color: AppTheme.CARD_EXPAND,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)
+                            ),
+                            child: Container(
+                                padding: EdgeInsets.all(10),
+                                height: MediaQuery.of(context).size.height - 100,
+                                width: MediaQuery.of(context).size.height + 75,
+                                child: Row(
+                                    children: [
+                                        Container(
+                                            padding: EdgeInsets.all(10),
+                                            height: MediaQuery.of(context).size.height - 100,
+                                            width: MediaQuery.of(context).size.height - 100
+                                        ),
+                                        Expanded(
+                                            child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                    Card(
+                                                        color: Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10)
                                                         ),
-                                                        onPressed: () => {
-                                                            // Navigator.push(
-                                                            //     context,
-                                                            //     MaterialPageRoute(
-                                                            //         builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
-                                                            //     )
-                                                            // )
-                                                        },
-                                                        child: Container(
-                                                            padding: EdgeInsets.all(10),
-                                                            height: 60,
-                                                            width: 90,
-                                                            child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                    Text(
-                                                                        'Easy',
-                                                                        style: TextStyle(
-                                                                            color: AppTheme.MAIN_COLOR,
-                                                                            fontWeight: FontWeight.bold
+                                                        child: TextButton(
+                                                            style: TextButton.styleFrom(
+                                                                padding: EdgeInsets.all(5)
+                                                            ),
+                                                            onPressed: () => {
+                                                                // Navigator.push(
+                                                                //     context,
+                                                                //     MaterialPageRoute(
+                                                                //         builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
+                                                                //     )
+                                                                // )
+                                                            },
+                                                            child: Container(
+                                                                padding: EdgeInsets.all(10),
+                                                                height: 70,
+                                                                width: 100,
+                                                                child: Column(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                        Text(
+                                                                            'Easy',
+                                                                            style: TextStyle(
+                                                                                color: AppTheme.MAIN_COLOR,
+                                                                                fontWeight: FontWeight.bold
+                                                                            )
+                                                                        ),
+                                                                        Star(height: 30)
+                                                                    ]
+                                                                )
+                                                            )
+                                                        )
+                                                    ),
+                                                    Card(
+                                                        color: Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10)
+                                                        ),
+                                                        child: TextButton(
+                                                            style: TextButton.styleFrom(
+                                                                padding: EdgeInsets.all(5)
+                                                            ),
+                                                            onPressed: () => {
+                                                                // Navigator.push(
+                                                                //     context,
+                                                                //     MaterialPageRoute(
+                                                                //         builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
+                                                                //     )
+                                                                // )
+                                                            },
+                                                            child: Container(
+                                                                padding: EdgeInsets.all(10),
+                                                                height: 70,
+                                                                width: 100,
+                                                                child: Column(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                        Text(
+                                                                            'Normal',
+                                                                            style: TextStyle(
+                                                                                color: AppTheme.MAIN_COLOR,
+                                                                                fontWeight: FontWeight.bold
+                                                                            )
+                                                                        ),
+                                                                        Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                                            children: [
+                                                                                Star(height: 30),
+                                                                                SizedBox(width: 10),
+                                                                                Star(height: 30)
+                                                                            ]
                                                                         )
-                                                                    ),
-                                                                    country.isEasySolved ? Star(height: 20) : SizedBox(height: 20)
-                                                                ]
+                                                                    ]
+                                                                )
                                                             )
                                                         )
                                                     )
-                                                ),
-                                                Card(
-                                                    color: Colors.white,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10)
-                                                    ),
-                                                    child: TextButton(
-                                                        style: TextButton.styleFrom(
-                                                            padding: EdgeInsets.all(5)
-                                                        ),
-                                                        onPressed: () => {
-                                                            // Navigator.push(
-                                                            //     context,
-                                                            //     MaterialPageRoute(
-                                                            //         builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
-                                                            //     )
-                                                            // )
-                                                        },
-                                                        child: Container(
-                                                            padding: EdgeInsets.all(10),
-                                                            height: 60,
-                                                            width: 90,
-                                                            child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                    Text(
-                                                                        'Normal',
-                                                                        style: TextStyle(
-                                                                            color: AppTheme.MAIN_COLOR,
-                                                                            fontWeight: FontWeight.bold
-                                                                        )
-                                                                    ),
-                                                                    Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                                        children: [
-                                                                            Star(height: 20),
-                                                                            SizedBox(width: 10),
-                                                                            Star(height: 20)
-                                                                        ]
-                                                                    )
-                                                                ]
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            ]
+                                                ]
+                                            )
                                         )
-                                    )
-                                ]
+                                    ]
+                                )
                             )
                         )
                     ),
                     Stack(
                         children: [
                             Container(
-                                height: MediaQuery.of(context).size.height - 135,
+                                height: MediaQuery.of(context).size.height - 70,
+                                padding: EdgeInsets.only(top: 10),
                                 color: Colors.transparent,
                                 alignment: Alignment.topCenter,
                                 child: Card(
@@ -226,11 +230,11 @@ class ContinentState extends State<ContinentStatefull> {
                                         },
                                         child: Container(
                                             padding: EdgeInsets.all(10),
-                                            height: MediaQuery.of(context).size.height - 150,
-                                            width: MediaQuery.of(context).size.height - 150,
+                                            height: MediaQuery.of(context).size.height - 100,
+                                            width: MediaQuery.of(context).size.height - 100,
                                             child: Image(
                                                 image: AssetImage('assets/shapes/$continentTitle/${country.title}.png'),
-                                                height: MediaQuery.of(context).size.height - 100,
+                                                height: MediaQuery.of(context).size.height - 50,
                                                 color: country.isEasySolved ? null : Colors.white,
                                                 fit: BoxFit.contain
                                             )
@@ -239,7 +243,7 @@ class ContinentState extends State<ContinentStatefull> {
                                 )
                             ),
                             Positioned(
-                                top: 15,
+                                top: 25,
                                 right: 15,
                                 child: Card(
                                     color: AppTheme.MAIN_COLOR,
@@ -251,7 +255,7 @@ class ContinentState extends State<ContinentStatefull> {
                                             Tooltip(
                                                 message: country.title,
                                                 preferBelow: false,
-                                                verticalOffset: 40,
+                                                verticalOffset: 35,
                                                 showDuration: Duration(milliseconds: 500),
                                                 child: Container(
                                                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -280,11 +284,11 @@ class ContinentState extends State<ContinentStatefull> {
                                     child: country.isNormalSolved ? Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                            Star(),
+                                            Star(height: 40),
                                             SizedBox(width: 20),
-                                            Star()
+                                            Star(height: 40)
                                         ]
-                                    ) : country.isEasySolved ? Star() : SizedBox.shrink()
+                                    ) : country.isEasySolved ? Star(height: 40) : SizedBox.shrink()
                                 )
                             )
                         ]

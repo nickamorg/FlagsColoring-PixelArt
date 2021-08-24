@@ -23,7 +23,7 @@ class Country {
             colors: List<String>.from(data['colors']));
 
             // TODO delete after implement load storage
-            if (country.isNormalSolved == true) country.isEasySolved = true;
+            if (country.isEasySolved == false) country.isNormalSolved = false;
 
         return country;
     }

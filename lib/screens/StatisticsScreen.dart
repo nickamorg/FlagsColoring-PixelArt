@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flagscoloring_pixelart/World.dart';
 import 'package:flagscoloring_pixelart/library.dart';
 import 'package:flutter/material.dart';
@@ -70,14 +68,14 @@ class StatisticsState extends State<Statistics> {
                         ),
                         child: Container(
                             padding: EdgeInsets.all(10),
-                            height: MediaQuery.of(context).size.height - 150,
-                            width: MediaQuery.of(context).size.height,
+                            height: MediaQuery.of(context).size.height - 100,
+                            width: MediaQuery.of(context).size.height + 75,
                             child: Row(
                                 children: [
                                     Container(
                                         padding: EdgeInsets.all(10),
-                                        height: MediaQuery.of(context).size.height - 150,
-                                        width: MediaQuery.of(context).size.height - 150
+                                        height: MediaQuery.of(context).size.height - 100,
+                                        width: MediaQuery.of(context).size.height - 100
                                     ),
                                     Expanded(
                                         child: Column(
@@ -132,7 +130,7 @@ class StatisticsState extends State<Statistics> {
                     Stack(
                         children: [
                             Container(
-                                height: MediaQuery.of(context).size.height - 135,
+                                height: MediaQuery.of(context).size.height - 80,
                                 color: Colors.transparent,
                                 alignment: Alignment.topCenter,
                                 child: Card(
@@ -142,40 +140,43 @@ class StatisticsState extends State<Statistics> {
                                     ),
                                     child: Container(
                                         padding: EdgeInsets.all(10),
-                                        height: MediaQuery.of(context).size.height - 150,
-                                        width: MediaQuery.of(context).size.height - 150,
+                                        height: MediaQuery.of(context).size.height - 100,
+                                        width: MediaQuery.of(context).size.height - 100,
                                         child: getPicture(continent)
                                     )
                                 )
                             ),
                             Positioned(
-                                top: 20,
-                                right: 40,
+                                top: 26,
+                                right: 60,
                                 child: Card(
                                     color: AppTheme.MAIN_COLOR,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15)
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(25),
+                                            bottomLeft: Radius.circular(25)
+                                        )
                                     ),
                                     child: Row(
                                         children: [
                                             Tooltip(
                                                 message: continent.title,
                                                 preferBelow: false,
-                                                verticalOffset: 40,
+                                                verticalOffset: 47,
                                                 showDuration: Duration(milliseconds: 500),
                                                 child: Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                                    height: 35,
+                                                    padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                                    height: 39,
                                                     constraints: BoxConstraints(maxWidth: 150),
                                                     decoration: BoxDecoration(
                                                         borderRadius: BorderRadius.circular(8)
                                                     ),
                                                     child: Text(
                                                         continent.title,
-                                                        overflow: TextOverflow.ellipsis,
                                                         style: TextStyle(
                                                             color: AppTheme.THIRD_COLOR,
-                                                            fontWeight: FontWeight.bold
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 12.5
                                                         )
                                                     )
                                                 )
@@ -188,8 +189,8 @@ class StatisticsState extends State<Statistics> {
                                 top: 15,
                                 right: 15,
                                 child: Container(
-                                    height: 50,
-                                    width: 50,
+                                    height: 70,
+                                    width: 70,
                                     decoration: BoxDecoration(
                                         color: AppTheme.MAIN_COLOR,
                                         shape: BoxShape.circle
@@ -200,7 +201,7 @@ class StatisticsState extends State<Statistics> {
                                             style: TextStyle(
                                                 color: AppTheme.THIRD_COLOR,
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 10
+                                                fontSize: 15
                                             )
                                         )
                                     )
@@ -261,17 +262,17 @@ class StatisticsState extends State<Statistics> {
 
     getEasyStar(Continent continent) {
         if (continent.title == 'World') {
-            return World.isEasySolved ? Star(height: 20) : SizedBox(height: 20);
+            return World.isEasySolved ? Star(height: 30) : SizedBox(height: 20);
         } else {
-            return continent.isEasySolved ? Star(height: 20) : SizedBox(height: 20);
+            return continent.isEasySolved ? Star(height: 30) : SizedBox(height: 20);
         }
     }
 
     getNormalStar(Continent continent) {
         if (continent.title == 'World') {
-            return World.isNormalSolved ? Star(height: 20) : SizedBox(height: 20);
+            return World.isNormalSolved ? Star(height: 30) : SizedBox(height: 20);
         } else {
-            return continent.isNormalSolved ? Star(height: 20) : SizedBox(height: 20);
+            return continent.isNormalSolved ? Star(height: 30) : SizedBox(height: 20);
         }
     }
 
@@ -280,20 +281,20 @@ class StatisticsState extends State<Statistics> {
             return World.isNormalSolved ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                    Star(height: 20),
-                    SizedBox(width: 10),
-                    Star(height: 20)
+                    Star(height: 30),
+                    SizedBox(width: 20),
+                    Star(height: 30)
                 ]
-            ) : World.isEasySolved ? Star(height: 20) : SizedBox();
+            ) : World.isEasySolved ? Star(height: 30) : SizedBox();
         } else {
             return continent.isNormalSolved ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                    Star(height: 20),
-                    SizedBox(width: 10),
-                    Star(height: 20)
+                    Star(height: 30),
+                    SizedBox(width: 20),
+                    Star(height: 30)
                 ]
-            ) : continent.isEasySolved ? Star(height: 20) : SizedBox(height: 20);
+            ) : continent.isEasySolved ? Star(height: 30) : SizedBox(height: 20);
         }
     }
 
@@ -302,20 +303,20 @@ class StatisticsState extends State<Statistics> {
             return World.isNormalSolved ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                    Star(),
-                    SizedBox(width: 20),
-                    Star()
+                    Star(height: 40),
+                    SizedBox(width: 30),
+                    Star(height: 40)
                 ]
-            ) : World.isEasySolved ? Star() : SizedBox.shrink();
+            ) : World.isEasySolved ? Star(height: 40) : SizedBox.shrink();
         } else {
             return continent.isNormalSolved ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                    Star(),
-                    SizedBox(width: 20),
-                    Star()
+                    Star(height: 40),
+                    SizedBox(width: 30),
+                    Star(height: 40)
                 ]
-            ) : continent.isEasySolved ? Star() : SizedBox.shrink();
+            ) : continent.isEasySolved ? Star(height: 40) : SizedBox.shrink();
         }
     }
 }

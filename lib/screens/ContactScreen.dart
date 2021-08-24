@@ -34,117 +34,117 @@ class ContactState extends State<Contact> {
                     )
                 ),
                 child: Center(
-                    child: Column(
+                    child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            Stack(
                                 children: [
-                                    Stack(
-                                        children: [
-                                            Card(
-                                                color: AppTheme.CARD_EXPAND,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(15)
-                                                ),
-                                                child: Container(
-                                                    padding: EdgeInsets.all(10),
-                                                    height: MediaQuery.of(context).size.height - 130,
-                                                    width: (MediaQuery.of(context).size.height - 150) * 2,
-                                                    child: Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                            Container(
-                                                                padding: EdgeInsets.all(10),
-                                                                height: MediaQuery.of(context).size.height - 130,
-                                                                width: MediaQuery.of(context).size.height - 150
-                                                            ),
-                                                            Expanded(
-                                                                child: formWidget()
-                                                            )
-                                                        ]
-                                                    )
-                                                )
-                                            ),
-                                            Container(
-                                                height: MediaQuery.of(context).size.height - 115,
-                                                color: Colors.transparent,
-                                                alignment: Alignment.topCenter,
-                                                child: Card(
-                                                    color: AppTheme.SECONDARY_COLOR,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(15)
-                                                    ),
-                                                    child: Container(
+                                    Card(
+                                        color: AppTheme.CARD_EXPAND,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20)
+                                        ),
+                                        child: Container(
+                                            padding: EdgeInsets.all(10),
+                                            height: MediaQuery.of(context).size.height - 130,
+                                            width: (MediaQuery.of(context).size.height - 100) * 2,
+                                            child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                    Container(
                                                         padding: EdgeInsets.all(10),
                                                         height: MediaQuery.of(context).size.height - 130,
-                                                        width: MediaQuery.of(context).size.height - 150,
+                                                        width: MediaQuery.of(context).size.height - 100
+                                                    ),
+                                                    Expanded(
                                                         child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [
-                                                                Text(
-                                                                    'Do you have anything to share with us?',
-                                                                    style: TextStyle(
-                                                                        color: Colors.white,
-                                                                        fontSize: 20,
-                                                                        fontWeight: FontWeight.bold
-                                                                    )
-                                                                ),
-                                                                Text(
-                                                                    'Does something annoy you?',
-                                                                    style: TextStyle(
-                                                                        color: Colors.white,
-                                                                        fontSize: 20,
-                                                                        fontWeight: FontWeight.bold
-                                                                    )
-                                                                ),
-                                                                Text(
-                                                                    'Tell us about it!',
-                                                                    style: TextStyle(
-                                                                        color: Colors.white,
-                                                                        fontSize: 20,
-                                                                        fontWeight: FontWeight.bold
+                                                                formWidget(),
+                                                                Card(
+                                                                    color: Colors.white,
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius: BorderRadius.circular(15)
+                                                                    ),
+                                                                    child: TextButton(
+                                                                        style: TextButton.styleFrom(
+                                                                            padding: EdgeInsets.all(5)
+                                                                        ),
+                                                                        onPressed: () => {
+                                                                            if (formKey.currentState!.validate()) {
+                                                                                sendEmail()
+                                                                            }
+                                                                        },
+                                                                        child: Container(
+                                                                            padding: EdgeInsets.all(10),
+                                                                            height: 40,
+                                                                            width: MediaQuery.of(context).size.height / 2,
+                                                                            color: Colors.white,
+                                                                            child: Center(
+                                                                                child: Text(
+                                                                                    'Send Email',
+                                                                                    style: TextStyle(
+                                                                                        color: Colors.black,
+                                                                                        fontStyle: FontStyle.italic
+                                                                                    )
+                                                                                )
+                                                                            )
+                                                                        )
                                                                     )
                                                                 )
                                                             ]
                                                         )
                                                     )
-                                                )
+                                                ]
                                             )
-                                        ]
-                                    )
-                                ]
-                            ),
-                            Card(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: TextButton(
-                                    style: TextButton.styleFrom(
-                                        padding: EdgeInsets.all(5)
+                                        )
                                     ),
-                                    onPressed: () => {
-                                        if (formKey.currentState!.validate()) {
-                                            sendEmail()
-                                        }
-                                    },
-                                    child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        height: 40,
-                                        width: MediaQuery.of(context).size.height - 150,
-                                        color: Colors.white,
-                                        child: Center(
-                                            child: Text(
-                                                'Send Email',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontStyle: FontStyle.italic
+                                    Container(
+                                        height: MediaQuery.of(context).size.height - 115,
+                                        color: Colors.transparent,
+                                        alignment: Alignment.topCenter,
+                                        child: Card(
+                                            color: AppTheme.SECONDARY_COLOR,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(20)
+                                            ),
+                                            child: Container(
+                                                padding: EdgeInsets.all(10),
+                                                height: MediaQuery.of(context).size.height - 130,
+                                                width: MediaQuery.of(context).size.height - 100,
+                                                child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                    children: [
+                                                        Text(
+                                                            'Do you have anything to share with us?',
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize: 20,
+                                                                fontWeight: FontWeight.bold
+                                                            )
+                                                        ),
+                                                        Text(
+                                                            'Does something annoy you?',
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize: 20,
+                                                                fontWeight: FontWeight.bold
+                                                            )
+                                                        ),
+                                                        Text(
+                                                            'Tell us about it!',
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize: 20,
+                                                                fontWeight: FontWeight.bold
+                                                            )
+                                                        )
+                                                    ]
                                                 )
                                             )
                                         )
                                     )
-                                )
+                                ]
                             )
                         ]
                     )
@@ -165,6 +165,7 @@ class ContactState extends State<Contact> {
                 maxLines: 10,
                 controller: ctrlField,
                 cursorColor: Colors.white,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                     hintText: 'Type something...',
                     hintStyle: TextStyle(
