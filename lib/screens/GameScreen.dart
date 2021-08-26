@@ -1,8 +1,10 @@
+import 'package:flagscoloring_pixelart/AudioPlayer.dart';
+import 'package:flagscoloring_pixelart/ExpandableFab.dart';
 import 'package:flutter/material.dart';
 import 'package:flagscoloring_pixelart/AppTheme.dart';
 import 'package:flagscoloring_pixelart/library.dart';
 import 'package:flagscoloring_pixelart/World.dart';
-import 'dart:math' as math;
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GameScreen extends StatelessWidget {
     final int continentIdx;
@@ -31,10 +33,7 @@ class GameState extends State<Game> {
     int selectedColorIdx = 0;
     List<List<int>> board = [];
     List<List<int>> pixels = [];
-
-    List<Color> colors = [Colors.red, Colors.blue, Colors.green, Colors.black, Colors.white, Colors.yellow];
-    List<String> colorNames = ["Grey", "Red", "Blue", "Green", "Black", "White", "Yellow"];
-    List<String> shapes = ['Block', 'Row', 'Column'];
+    List<Color?> colors = [Colors.red, Colors.blue, Colors.green, Colors.black, Colors.white, Colors.yellow];
     int selectedShapeIdx = 0;
 
     @override
@@ -48,32 +47,66 @@ class GameState extends State<Game> {
         pixels = World.continents[continentIdx].countries[countryIdx].pixels;
         height = pixels.length;
         width = pixels[0].length;
+        colors = World.continents[continentIdx].countries[countryIdx].colors.map((color) => mapColors[color]).toList();
         board = List.generate(height, (i) => List.filled(width, -1, growable: true), growable: true);
     }
-
-      static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
-
-
-      void _showAction(BuildContext context, int index) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(_actionTitles[index]),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('CLOSE'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
 	@override
     Widget build(BuildContext context) {
         return Scaffold(
+            floatingActionButton: ExpandableFab(
+                distance: 112.0,
+                children: [
+                    Tooltip(
+                        message: 'Clear Board',
+                        verticalOffset: 30,
+                        preferBelow: false,
+                        child: ActionButton(
+                            onPressed: clearBoard,
+                            icon: SvgPicture.asset(
+                                'assets/actions/clear.svg',
+                                height: 25
+                            )
+                        )
+                    ),
+                    Tooltip(
+                        message: 'Undo last Painting',
+                        verticalOffset: 30,
+                        preferBelow: false,
+                        child: ActionButton(
+                            onPressed: () => { },
+                            icon: SvgPicture.asset(
+                                'assets/actions/undo.svg',
+                                height: 25
+                            )
+                        )
+                    ),
+                    Tooltip(
+                        message: 'Get a Hint',
+                        verticalOffset: 30,
+                        preferBelow: false,
+                        child: ActionButton(
+                            onPressed: () => { },
+                            icon: SvgPicture.asset(
+                                'assets/actions/hint.svg',
+                                height: 25
+                            )
+                        )
+                    ),
+                    Tooltip(
+                        message: 'Validate Board',
+                        verticalOffset: 30,
+                        preferBelow: false,
+                        child: ActionButton(
+                            onPressed: validateBoard,
+                            icon: SvgPicture.asset(
+                                'assets/actions/validate.svg',
+                                height: 25
+                            )
+                        )
+                    )
+                ]
+            ),
             body: Container(
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -166,7 +199,7 @@ class GameState extends State<Game> {
                                                                                     Container(
                                                                                         width: 30,
                                                                                         height: 30,
-                                                                                        color: shapes[selectedShapeIdx] == 'Block' ? colors[selectedColorIdx] : Colors.black38
+                                                                                        color: shapes[selectedShapeIdx] == Shape.BLOCK ? colors[selectedColorIdx] : Colors.black38
                                                                                     ),
                                                                                 ],
                                                                             )
@@ -180,19 +213,19 @@ class GameState extends State<Game> {
                                                                                     Container(
                                                                                         width: 8,
                                                                                         height: 8,
-                                                                                        color: shapes[selectedShapeIdx] == 'Row' ? colors[selectedColorIdx] : Colors.black38
+                                                                                        color: shapes[selectedShapeIdx] == Shape.COLUMN ? colors[selectedColorIdx] : Colors.black38
                                                                                     ),
                                                                                     SizedBox(height: 2),
                                                                                     Container(
                                                                                         width: 8,
                                                                                         height: 8,
-                                                                                        color: shapes[selectedShapeIdx] == 'Row' ? colors[selectedColorIdx] : Colors.black38
+                                                                                        color: shapes[selectedShapeIdx] == Shape.COLUMN ? colors[selectedColorIdx] : Colors.black38
                                                                                     ),
                                                                                     SizedBox(height: 2),
                                                                                     Container(
                                                                                         width: 8,
                                                                                         height: 8,
-                                                                                        color: shapes[selectedShapeIdx] == 'Row' ? colors[selectedColorIdx] : Colors.black38
+                                                                                        color: shapes[selectedShapeIdx] == Shape.COLUMN ? colors[selectedColorIdx] : Colors.black38
                                                                                     )
                                                                                 ]
                                                                             )
@@ -211,19 +244,19 @@ class GameState extends State<Game> {
                                                                                                 Container(
                                                                                                     width: 8,
                                                                                                     height: 8,
-                                                                                                    color: shapes[selectedShapeIdx] == 'Column' ? colors[selectedColorIdx] : Colors.black38
+                                                                                                    color: shapes[selectedShapeIdx] == Shape.ROW ? colors[selectedColorIdx] : Colors.black38
                                                                                                 ),
                                                                                                 SizedBox(width: 2),
                                                                                                 Container(
                                                                                                     width: 8,
                                                                                                     height: 8,
-                                                                                                    color: shapes[selectedShapeIdx] == 'Column' ? colors[selectedColorIdx] : Colors.black38
+                                                                                                    color: shapes[selectedShapeIdx] == Shape.ROW ? colors[selectedColorIdx] : Colors.black38
                                                                                                 ),
                                                                                                 SizedBox(width: 2),
                                                                                                 Container(
                                                                                                     width: 8,
                                                                                                     height: 8,
-                                                                                                    color: shapes[selectedShapeIdx] == 'Column' ? colors[selectedColorIdx] : Colors.black38
+                                                                                                    color: shapes[selectedShapeIdx] == Shape.ROW ? colors[selectedColorIdx] : Colors.black38
                                                                                                 )
                                                                                             ]
                                                                                         ),
@@ -300,7 +333,7 @@ class GameState extends State<Game> {
                             ),
                             child: Container(
                                 decoration: BoxDecoration(
-                                    color: board[i][j] == -1 ? Colors.grey : colors[board[i][j]],
+                                    color: board[i][j] == -1 ? Colors.grey : colors[board[i][j] - 1],
                                     shape: BoxShape.rectangle,
                                     border: board[i][j] == 0 ? Border.all(color: Colors.blueGrey) : null,
                                     borderRadius: isCorner(i, j) ? BorderRadius.only(
@@ -402,29 +435,70 @@ class GameState extends State<Game> {
     }
 
     paint(int row, int col) {
-        if (shapes[selectedShapeIdx] == 'Row') {
+        if (shapes[selectedShapeIdx] == Shape.ROW) {
             for (int i = 0; i < board[row].length; i++) {
-                board[row][i] = selectedColorIdx;
+                board[row][i] = selectedColorIdx + 1;
             }
-        } else if (shapes[selectedShapeIdx] == 'Column') {
+        } else if (shapes[selectedShapeIdx] == Shape.COLUMN) {
             for (int i = 0; i < board.length; i++) {
-                board[i][col] = selectedColorIdx;
+                board[i][col] = selectedColorIdx + 1;
             }
         } else {
             if (blockDiameterSize == 1) {
-                board[row][col] = selectedColorIdx;
+                board[row][col] = selectedColorIdx + 1;
             }
 
             for (int i = row - blockDiameterSize ~/ 2; i <= row + blockDiameterSize ~/ 2; i++) {
                 for (int j = col - blockDiameterSize ~/ 2; j <= col + blockDiameterSize ~/ 2; j++) {
                     if (i >= 0 && i < height && j >= 0 && j < width) {
-                        board[i][j] = selectedColorIdx;
+                        board[i][j] = selectedColorIdx + 1;
                     }
                 }
             }
         }
 
         setState(() { });
+    }
+
+    clearBoard() {
+        setState(() { 
+            board = List.generate(height, (i) => List.filled(width, -1, growable: true), growable: true);
+        });
+    }
+
+    validateBoard() {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (board[i][j] != pixels[i][j]) {
+                    AudioPlayer.play(AudioList.WRONG_ANSWER);
+                    return;
+                }
+            }
+        }
+
+        AudioPlayer.play(AudioList.WIN);
+        
+        int rewardHints = 1;
+        if (rewardHints > 0) {
+            final snackBar = SnackBar(
+                duration: Duration(milliseconds: 500),
+                content: Text("+$rewardHints hint${rewardHints > 1 ? 's' : ''}")
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+
+        World.storeData();
+
+        Future.delayed(Duration(milliseconds: 1000), () {
+            Navigator.of(context).pop(true);
+        });
+    }
+
+    printBoard() {
+        String str = '\n';
+        board.forEach((element) { str += element.toString() + ',\n'; });
+        print(str.substring(0, str.length ~/ 2));
+        print(str.substring(str.length ~/ 2));
     }
 }
 

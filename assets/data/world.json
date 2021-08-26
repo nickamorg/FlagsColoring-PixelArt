@@ -4473,7 +4473,7 @@
                     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
                     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
                 ],
-                "colors": ["Red", "Blue", "Green", "Light Blue", "White", "Light brown", "Orange", "Grray"]
+                "colors": ["Red", "Blue", "Green", "Light Blue", "White", "Light Brown", "Orange", "Grray"]
             },
             "Cuba": {
                 "pixels": [

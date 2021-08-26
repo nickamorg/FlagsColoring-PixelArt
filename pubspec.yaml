@@ -57,6 +57,14 @@ flutter:
     - assets/like.svg
     - assets/heart.svg
 
+    # Actions
+    - assets/actions/actions.svg
+    - assets/actions/clear.svg
+    - assets/actions/hint.svg
+    - assets/actions/undo.svg
+    - assets/actions/validate.svg
+    
+
     # Countries
     - assets/countries/Africa/Algeria.png
     - assets/countries/Africa/Angola.png
