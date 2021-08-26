@@ -63,7 +63,6 @@ flutter:
     - assets/actions/hint.svg
     - assets/actions/undo.svg
     - assets/actions/validate.svg
-    
 
     # Countries
     - assets/countries/Africa/Algeria.png

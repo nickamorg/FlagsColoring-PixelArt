@@ -2,14 +2,13 @@ import 'package:flagscoloring_pixelart/DataStorage.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:async' show Future;
 import 'dart:convert';
-import 'dart:math';
 
 class Country {
     String title;
     List<List<int>> pixels;
     List<String> colors;
-    bool isEasySolved = Random().nextInt(100) == 0 ? false : true;
-    bool isNormalSolved = Random().nextInt(100) == 0 ? false : true;
+    bool isEasySolved = false;
+    bool isNormalSolved = false;
 
     Country({required this.title, required this.pixels, required this.colors});
 
@@ -21,9 +20,6 @@ class Country {
                   .map((row) => row.map((pixel) => pixel as int).toList())
                   .toList(),
             colors: List<String>.from(data['colors']));
-
-            // TODO delete after implement load storage
-            if (country.isEasySolved == false) country.isNormalSolved = false;
 
         return country;
     }
@@ -74,11 +70,15 @@ class Continent {
     }
 
     int get totalEasySolvedStars {
-        return countries.where((country) => country.isNormalSolved).length;
+        return countries.where((country) => country.isEasySolved).length;
     }
 
     int get totalNormalSolvedStars {
         return countries.where((country) => country.isNormalSolved).length;
+    }
+
+    Country getCountryByTitle(String countryTitle) {
+        return countries.firstWhere((country) => country.title == countryTitle);
     }
 
     @override
@@ -202,16 +202,21 @@ class World {
     }
 
     static void storeData() {
-		String str = '{"Countries":{';
+		String str = '{"world":{';
 
-        // int countryIdx = countries.length;
-        // countries.forEach((country) {
-        //     str += '"${country.title}":{"isEasySolved":${country.isEasySolved},"isNormalSolved":${country.isNormalSolved}}';
+        int continentIdx = World.continents.length;
+        World.continents.forEach((continent) {
+            str += '"${continent.title}":{';
+            int countryIdx = continent.countries.length;
+            continent.countries.forEach((country) {
+                str += '"${country.title}":{"isEasySolved":${country.isEasySolved},"isNormalSolved":${country.isNormalSolved}}';
 
-        //     str += '${(--countryIdx > 0 ? ',' : '')}';
-        // });
+                str += '${(--countryIdx > 0 ? ',' : '')}';
+            });
+            str += '${(--continentIdx > 0 ? '},' : '')}';
+        });
 
-        str += '},"hints":$hints}';
+        str += '}},"hints":$hints}';
 
 		DataStorage.writeData(str);
     }
@@ -221,16 +226,22 @@ class World {
 			if (value) {
 				DataStorage.readData().then((value) {
 					if (value.isNotEmpty) {
-						Map<String, dynamic> countriesList = jsonDecode(value);
+						Map<String, dynamic> data = jsonDecode(value);
 
-                        // countriesList['Countries'].forEach((countryTitle, countryData) {
-                        //     Country? country = getCountryByTitle(countryTitle);
+                        data['world'].forEach((continentTitle, countriesData) {
+                            Continent continent = getContinentByTitle(continentTitle);
 
-                        //     country.isEasySolved = countryData['isEasySolved'];
-                        //     country.isNormalSolved = countryData['isNormalSolved'];
-                        // });
+                            Map<String, dynamic> countries = countriesData;
 
-                        hints = countriesList['hints'];
+                            countries.forEach((countryTitle, countryData) {
+                                Country? country = continent.getCountryByTitle(countryTitle);
+
+                                country.isEasySolved = countryData['isEasySolved'];
+                                country.isNormalSolved = countryData['isNormalSolved'];
+                            });
+                        });
+
+                        hints = data['hints'];
                     }
 				});
 			} else {

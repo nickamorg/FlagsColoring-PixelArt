@@ -132,7 +132,9 @@ class ContinentState extends State<ContinentStatefull> {
                                                                     MaterialPageRoute(
                                                                         builder: (context) => GameScreen(continentIdx: continentIdx, countryIdx: index, gameMode: GameMode.EASY)
                                                                     )
-                                                                )
+                                                                ).then((value) {
+                                                                    setState(() { });
+                                                                })
                                                             },
                                                             child: Container(
                                                                 padding: EdgeInsets.all(10),
@@ -169,7 +171,9 @@ class ContinentState extends State<ContinentStatefull> {
                                                                     MaterialPageRoute(
                                                                         builder: (context) => GameScreen(continentIdx: continentIdx, countryIdx: index, gameMode: GameMode.NORMAL)
                                                                     )
-                                                                )
+                                                                ).then((value) {
+                                                                    setState(() { });
+                                                                })
                                                             },
                                                             child: Container(
                                                                 padding: EdgeInsets.all(10),

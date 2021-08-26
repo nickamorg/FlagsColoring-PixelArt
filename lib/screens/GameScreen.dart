@@ -478,6 +478,12 @@ class GameState extends State<Game> {
 
         AudioPlayer.play(AudioList.WIN);
         
+        if (gameMode == GameMode.EASY) {
+            World.continents[continentIdx].countries[countryIdx].isEasySolved = true;
+        } else {
+            World.continents[continentIdx].countries[countryIdx].isNormalSolved = true;
+        }
+        
         int rewardHints = 1;
         if (rewardHints > 0) {
             final snackBar = SnackBar(
@@ -489,9 +495,9 @@ class GameState extends State<Game> {
 
         World.storeData();
 
-        Future.delayed(Duration(milliseconds: 1000), () {
-            Navigator.of(context).pop(true);
-        });
+        // Future.delayed(Duration(milliseconds: 1000), () {
+        //     Navigator.of(context).pop(true);
+        // });
     }
 
     printBoard() {

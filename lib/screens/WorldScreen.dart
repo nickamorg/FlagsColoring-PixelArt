@@ -107,7 +107,9 @@ class WorldState extends State<WorldStatefull> {
                                         MaterialPageRoute(
                                             builder: (context) => ContinentScreen(continentIdx: index)
                                         )
-                                    )
+                                    ).then((value) {
+                                        setState(() { });
+                                    })
                                 },
                                 child: Container(
                                     padding: EdgeInsets.all(10),
