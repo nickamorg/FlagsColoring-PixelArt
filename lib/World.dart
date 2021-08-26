@@ -6,17 +6,17 @@ import 'dart:math';
 
 class Country {
     String title;
-    List<List<int>> data;
+    List<List<int>> pixels;
     List<String> colors;
     bool isEasySolved = Random().nextInt(100) == 0 ? false : true;
     bool isNormalSolved = Random().nextInt(100) == 0 ? false : true;
 
-    Country({required this.title, required this.data, required this.colors});
+    Country({required this.title, required this.pixels, required this.colors});
 
     factory Country.fromJson(String countryTitle, Map<String, dynamic> data) {
         Country country = Country(
             title: countryTitle, 
-            data: List<List<dynamic>>
+            pixels: List<List<dynamic>>
                   .from(data['pixels'])
                   .map((row) => row.map((pixel) => pixel as int).toList())
                   .toList(),

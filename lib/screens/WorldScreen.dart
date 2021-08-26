@@ -73,15 +73,16 @@ class WorldState extends State<WorldStatefull> {
         List<Widget> continents = [];
 
         continents.add(SizedBox(width: 20));
+        int index = 0;
         World.continents.forEach((continent) {
-            continents.add(getContinent(continent));
+            continents.add(getContinent(continent, index++));
         });
         continents.add(SizedBox(width: 20));
 
         return Row(children: continents);
     }
 
-    getContinent(Continent continent) {
+    getContinent(Continent continent, int index) {
         return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Stack(
@@ -104,7 +105,7 @@ class WorldState extends State<WorldStatefull> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => ContinentScreen(continentTitle: continent.title)
+                                            builder: (context) => ContinentScreen(continentIdx: index)
                                         )
                                     )
                                 },
@@ -160,7 +161,7 @@ class WorldState extends State<WorldStatefull> {
                                     style: TextStyle(
                                         color: AppTheme.THIRD_COLOR,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 15,
+                                        fontSize: 15
                                     )
                                 )
                             )

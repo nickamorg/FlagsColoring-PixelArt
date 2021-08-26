@@ -1,28 +1,29 @@
+import 'package:flutter/material.dart';
 import 'package:flagscoloring_pixelart/World.dart';
 import 'package:flagscoloring_pixelart/library.dart';
-import 'package:flutter/material.dart';
+import 'package:flagscoloring_pixelart/screens/GameScreen.dart';
 import 'package:flagscoloring_pixelart/AppTheme.dart';
 
 class ContinentScreen extends StatelessWidget {
-    final String continentTitle;
+    final int continentIdx;
 
-    ContinentScreen({ Key? key, required this.continentTitle}) : super(key: key);
+    ContinentScreen({ Key? key, required this.continentIdx}) : super(key: key);
 
 	@override
 	Widget build(BuildContext context) {
-        return ContinentStatefull(continentTitle: continentTitle);
+        return ContinentStatefull(continentIdx: continentIdx);
 	}
 }
 
 class ContinentState extends State<ContinentStatefull> {
-    String continentTitle = '';
+    int continentIdx = 0;
     String expandedCountry = '';
 
     @override
     void initState() {
         super.initState();
 
-        continentTitle = widget.continentTitle;
+        continentIdx = widget.continentIdx;
     }
 
 	@override
@@ -40,7 +41,7 @@ class ContinentState extends State<ContinentStatefull> {
                     ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
-                        image: AssetImage("assets/continents_background/$continentTitle.png"),
+                        image: AssetImage("assets/continents_background/${World.continents[continentIdx].title}.png"),
                         fit: BoxFit.cover
                     )
                 ),
@@ -52,7 +53,7 @@ class ContinentState extends State<ContinentStatefull> {
                             child: Row(
                                 children: [
                                     Text(
-                                        '${World.getContinentByTitle(continentTitle).totalSolvedStars}/${World.getContinentByTitle(continentTitle).totalStars}',
+                                        '${World.continents[continentIdx].totalSolvedStars}/${World.continents[continentIdx].totalStars}',
                                         style: TextStyle(
                                             color: AppTheme.THIRD_COLOR,
                                             fontSize: 20,
@@ -79,16 +80,17 @@ class ContinentState extends State<ContinentStatefull> {
     Row getCountries() {
         List<Widget> countries = [];
 
+        int index = 0;
         countries.add(SizedBox(width: 20));
-        World.getContinentByTitle(continentTitle).countries.forEach((countryTitle) {
-            countries.add(getCountry(countryTitle));
+            World.continents[continentIdx].countries.forEach((countryTitle) {
+            countries.add(getCountry(countryTitle, index++));
         });
         countries.add(SizedBox(width: 20));
 
         return Row(children: countries);
     }
 
-    getCountry(Country country) {
+    getCountry(Country country, int index) {
         return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Stack(
@@ -125,12 +127,12 @@ class ContinentState extends State<ContinentStatefull> {
                                                                 padding: EdgeInsets.all(5)
                                                             ),
                                                             onPressed: () => {
-                                                                // Navigator.push(
-                                                                //     context,
-                                                                //     MaterialPageRoute(
-                                                                //         builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
-                                                                //     )
-                                                                // )
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => GameScreen(continentIdx: continentIdx, countryIdx: index, gameMode: GameMode.EASY)
+                                                                    )
+                                                                )
                                                             },
                                                             child: Container(
                                                                 padding: EdgeInsets.all(10),
@@ -162,12 +164,12 @@ class ContinentState extends State<ContinentStatefull> {
                                                                 padding: EdgeInsets.all(5)
                                                             ),
                                                             onPressed: () => {
-                                                                // Navigator.push(
-                                                                //     context,
-                                                                //     MaterialPageRoute(
-                                                                //         builder: (context) => GameScreen(countryTitle: countryTitle, gameMode: GameMode.EASY)
-                                                                //     )
-                                                                // )
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => GameScreen(continentIdx: continentIdx, countryIdx: index, gameMode: GameMode.NORMAL)
+                                                                    )
+                                                                )
                                                             },
                                                             child: Container(
                                                                 padding: EdgeInsets.all(10),
@@ -233,7 +235,7 @@ class ContinentState extends State<ContinentStatefull> {
                                             height: MediaQuery.of(context).size.height - 100,
                                             width: MediaQuery.of(context).size.height - 100,
                                             child: Image(
-                                                image: AssetImage('assets/shapes/$continentTitle/${country.title}.png'),
+                                                image: AssetImage('assets/shapes/${World.continents[continentIdx].title}/${country.title}.png'),
                                                 height: MediaQuery.of(context).size.height - 50,
                                                 color: country.isEasySolved ? null : Colors.white,
                                                 fit: BoxFit.contain
@@ -300,9 +302,9 @@ class ContinentState extends State<ContinentStatefull> {
 }
 
 class ContinentStatefull extends StatefulWidget {
-    final String continentTitle;
+    final int continentIdx;
 
-    ContinentStatefull({ Key? key, required this.continentTitle }) : super(key: key);
+    ContinentStatefull({ Key? key, required this.continentIdx }) : super(key: key);
 
 
 	@override
