@@ -46,15 +46,15 @@ class ContactState extends State<Contact> {
                                         ),
                                         child: Container(
                                             padding: EdgeInsets.all(10),
-                                            height: MediaQuery.of(context).size.height - 130,
-                                            width: (MediaQuery.of(context).size.height - 100) * 2,
+                                            height: MediaQuery.of(context).size.height - 60,
+                                            width: (MediaQuery.of(context).size.width - 60),
                                             child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                     Container(
                                                         padding: EdgeInsets.all(10),
-                                                        height: MediaQuery.of(context).size.height - 130,
-                                                        width: MediaQuery.of(context).size.height - 100
+                                                        height: MediaQuery.of(context).size.height - 60,
+                                                        width: (MediaQuery.of(context).size.width - 60) / 2
                                                     ),
                                                     Expanded(
                                                         child: Column(
@@ -78,7 +78,7 @@ class ContactState extends State<Contact> {
                                                                         child: Container(
                                                                             padding: EdgeInsets.all(10),
                                                                             height: 40,
-                                                                            width: MediaQuery.of(context).size.height / 2,
+                                                                            width: MediaQuery.of(context).size.height / 1.6,
                                                                             color: Colors.white,
                                                                             child: Center(
                                                                                 child: Text(
@@ -100,7 +100,7 @@ class ContactState extends State<Contact> {
                                         )
                                     ),
                                     Container(
-                                        height: MediaQuery.of(context).size.height - 115,
+                                        height: MediaQuery.of(context).size.height - 45,
                                         color: Colors.transparent,
                                         alignment: Alignment.topCenter,
                                         child: Card(
@@ -110,8 +110,8 @@ class ContactState extends State<Contact> {
                                             ),
                                             child: Container(
                                                 padding: EdgeInsets.all(10),
-                                                height: MediaQuery.of(context).size.height - 130,
-                                                width: MediaQuery.of(context).size.height - 100,
+                                                height: MediaQuery.of(context).size.height - 60,
+                                                width: (MediaQuery.of(context).size.width - 60) / 2,
                                                 child: Column(
                                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                     children: [

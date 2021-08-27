@@ -15,9 +15,7 @@ class GameScreen extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
-        return MaterialApp(
-			home: Game(continentIdx: continentIdx, countryIdx: countryIdx, gameMode: gameMode)
-		);
+        return Game(continentIdx: continentIdx, countryIdx: countryIdx, gameMode: gameMode);
 	}
 }
 
@@ -35,6 +33,7 @@ class GameState extends State<Game> {
     List<List<int>> pixels = [];
     List<Color?> colors = [Colors.red, Colors.blue, Colors.green, Colors.black, Colors.white, Colors.yellow];
     int selectedShapeIdx = 0;
+    List<List<List<int>>> lastPainting = [];
 
     @override
     initState() {
@@ -70,19 +69,23 @@ class GameState extends State<Game> {
                         )
                     ),
                     Tooltip(
-                        message: 'Undo last Painting',
+                        message: 'Undo Painting',
                         verticalOffset: 30,
                         preferBelow: false,
-                        child: ActionButton(
-                            onPressed: () => { },
-                            icon: SvgPicture.asset(
-                                'assets/actions/undo.svg',
-                                height: 25
+                        child: AnimatedOpacity(
+                            opacity: lastPainting.isNotEmpty ? 1 : 0.5,
+                            duration: Duration(milliseconds: 500),
+                            child: ActionButton(
+                                onPressed: lastPainting.isEmpty ? null : undoPainting,
+                                icon: SvgPicture.asset(
+                                    'assets/actions/undo.svg',
+                                    height: 25
+                                )
                             )
                         )
                     ),
                     Tooltip(
-                        message: 'Get a Hint',
+                        message: 'Get Hint',
                         verticalOffset: 30,
                         preferBelow: false,
                         child: ActionButton(
@@ -199,7 +202,12 @@ class GameState extends State<Game> {
                                                                                     Container(
                                                                                         width: 30,
                                                                                         height: 30,
-                                                                                        color: shapes[selectedShapeIdx] == Shape.BLOCK ? colors[selectedColorIdx] : Colors.black38
+                                                                                        decoration: BoxDecoration(
+                                                                                            color: shapes[selectedShapeIdx] == Shape.BLOCK ? colors[selectedColorIdx] : Colors.black38,
+                                                                                            shape: BoxShape.rectangle,
+                                                                                            border: isWhiteColor(selectedColorIdx) ? Border.all(color: Colors.black) : null,
+                                                                                            borderRadius: BorderRadius.circular(6)
+                                                                                        )
                                                                                     ),
                                                                                 ],
                                                                             )
@@ -213,19 +221,34 @@ class GameState extends State<Game> {
                                                                                     Container(
                                                                                         width: 8,
                                                                                         height: 8,
-                                                                                        color: shapes[selectedShapeIdx] == Shape.COLUMN ? colors[selectedColorIdx] : Colors.black38
+                                                                                        decoration: BoxDecoration(
+                                                                                            color: shapes[selectedShapeIdx] == Shape.COLUMN ? colors[selectedColorIdx] : Colors.black38,
+                                                                                            shape: BoxShape.rectangle,
+                                                                                            border: isWhiteColor(selectedColorIdx) ? Border.all(color: Colors.black) : null,
+                                                                                            borderRadius: BorderRadius.circular(2)
+                                                                                        )
                                                                                     ),
                                                                                     SizedBox(height: 2),
                                                                                     Container(
                                                                                         width: 8,
                                                                                         height: 8,
-                                                                                        color: shapes[selectedShapeIdx] == Shape.COLUMN ? colors[selectedColorIdx] : Colors.black38
+                                                                                        decoration: BoxDecoration(
+                                                                                            color: shapes[selectedShapeIdx] == Shape.COLUMN ? colors[selectedColorIdx] : Colors.black38,
+                                                                                            shape: BoxShape.rectangle,
+                                                                                            border: isWhiteColor(selectedColorIdx) ? Border.all(color: Colors.black) : null,
+                                                                                            borderRadius: BorderRadius.circular(2)
+                                                                                        )
                                                                                     ),
                                                                                     SizedBox(height: 2),
                                                                                     Container(
                                                                                         width: 8,
                                                                                         height: 8,
-                                                                                        color: shapes[selectedShapeIdx] == Shape.COLUMN ? colors[selectedColorIdx] : Colors.black38
+                                                                                        decoration: BoxDecoration(
+                                                                                            color: shapes[selectedShapeIdx] == Shape.COLUMN ? colors[selectedColorIdx] : Colors.black38,
+                                                                                            shape: BoxShape.rectangle,
+                                                                                            border: isWhiteColor(selectedColorIdx) ? Border.all(color: Colors.black) : null,
+                                                                                            borderRadius: BorderRadius.circular(2)
+                                                                                        )
                                                                                     )
                                                                                 ]
                                                                             )
@@ -244,19 +267,34 @@ class GameState extends State<Game> {
                                                                                                 Container(
                                                                                                     width: 8,
                                                                                                     height: 8,
-                                                                                                    color: shapes[selectedShapeIdx] == Shape.ROW ? colors[selectedColorIdx] : Colors.black38
+                                                                                                    decoration: BoxDecoration(
+                                                                                                        color: shapes[selectedShapeIdx] == Shape.ROW ? colors[selectedColorIdx] : Colors.black38,
+                                                                                                        shape: BoxShape.rectangle,
+                                                                                                        border: isWhiteColor(selectedColorIdx) ? Border.all(color: Colors.black) : null,
+                                                                                                        borderRadius: BorderRadius.circular(2)
+                                                                                                    )
                                                                                                 ),
                                                                                                 SizedBox(width: 2),
                                                                                                 Container(
                                                                                                     width: 8,
                                                                                                     height: 8,
-                                                                                                    color: shapes[selectedShapeIdx] == Shape.ROW ? colors[selectedColorIdx] : Colors.black38
+                                                                                                    decoration: BoxDecoration(
+                                                                                                        color: shapes[selectedShapeIdx] == Shape.ROW ? colors[selectedColorIdx] : Colors.black38,
+                                                                                                        shape: BoxShape.rectangle,
+                                                                                                        border: isWhiteColor(selectedColorIdx) ? Border.all(color: Colors.black) : null,
+                                                                                                        borderRadius: BorderRadius.circular(2)
+                                                                                                    )
                                                                                                 ),
                                                                                                 SizedBox(width: 2),
                                                                                                 Container(
                                                                                                     width: 8,
                                                                                                     height: 8,
-                                                                                                    color: shapes[selectedShapeIdx] == Shape.ROW ? colors[selectedColorIdx] : Colors.black38
+                                                                                                    decoration: BoxDecoration(
+                                                                                                        color: shapes[selectedShapeIdx] == Shape.ROW ? colors[selectedColorIdx] : Colors.black38,
+                                                                                                        shape: BoxShape.rectangle,
+                                                                                                        border: isWhiteColor(selectedColorIdx) ? Border.all(color: Colors.black) : null,
+                                                                                                        borderRadius: BorderRadius.circular(2)
+                                                                                                    )
                                                                                                 )
                                                                                             ]
                                                                                         ),
@@ -276,34 +314,38 @@ class GameState extends State<Game> {
                                                         )
                                                     ),   
                                                     SizedBox(height: 10),
-                                                    Card(
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(15)
-                                                        ),
-                                                        color: Colors.white,
-                                                        child: Column(
-                                                            children: [
-                                                                RotatedBox(
-                                                                    quarterTurns: 3,
-                                                                    child: Container(
-                                                                        height: 130,
-                                                                        width: 55,
-                                                                        child: ListWheelScrollView.useDelegate(
-                                                                            physics: FixedExtentScrollPhysics(),
-                                                                            perspective: 0.01,
-                                                                            itemExtent: 40,
-                                                                            childDelegate: ListWheelChildLoopingListDelegate(
-                                                                                children: getBlockDiagonalSizes()
-                                                                            ),
-                                                                            onSelectedItemChanged: (index) {
-                                                                                setState(() {
-                                                                                    blockDiameterSize = index * 2 + 1;
-                                                                                });
-                                                                            }
+                                                    AnimatedOpacity(
+                                                        opacity: shapes[selectedShapeIdx] == Shape.BLOCK ? 1 : 0,
+                                                        duration: Duration(milliseconds: 500),
+                                                        child: Card(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(15)
+                                                            ),
+                                                            color: Colors.white,
+                                                            child: Column(
+                                                                children: [
+                                                                    RotatedBox(
+                                                                        quarterTurns: 3,
+                                                                        child: Container(
+                                                                            height: 130,
+                                                                            width: 55,
+                                                                            child: ListWheelScrollView.useDelegate(
+                                                                                physics: shapes[selectedShapeIdx] == Shape.BLOCK ? FixedExtentScrollPhysics() : NeverScrollableScrollPhysics() ,
+                                                                                perspective: 0.01,
+                                                                                itemExtent: 40,
+                                                                                childDelegate: ListWheelChildLoopingListDelegate(
+                                                                                    children: getBlockDiagonalSizes()
+                                                                                ),
+                                                                                onSelectedItemChanged: (index) {
+                                                                                    setState(() {
+                                                                                        blockDiameterSize = index * 2 + 1;
+                                                                                    });
+                                                                                }
+                                                                            )
                                                                         )
                                                                     )
-                                                                )
-                                                            ]
+                                                                ]
+                                                            )
                                                         )
                                                     )
                                                 ]
@@ -348,7 +390,7 @@ class GameState extends State<Game> {
                                         '${pixels[i][j]}',
                                         style: TextStyle(
                                             fontSize: 15,
-                                            color: Colors.white
+                                            color: board[i][j] > -1 && isColorNeededBlackFont(board[i][j] - 1) ? Colors.black : Colors.white
                                         )
                                     )
                                 )
@@ -409,12 +451,26 @@ class GameState extends State<Game> {
                     children: [
                         RotatedBox(
                             quarterTurns: 1,
-                            child: Text(
-                                '$i',
-                                style: TextStyle(
-                                    color: blockDiameterSize == i ? colors[selectedColorIdx] : Colors.black38,
-                                    fontSize: 30
-                                )
+                            child: Stack(
+                                children: <Widget>[
+                                    !isWhiteColor(selectedColorIdx) || blockDiameterSize != i ? SizedBox.shrink() : Text(
+                                        '$i',
+                                        style: TextStyle(
+                                            foreground: Paint()
+                                            ..style = PaintingStyle.stroke
+                                            ..strokeWidth = 1
+                                            ..color = Colors.black,
+                                            fontSize: 30
+                                        )
+                                    ),
+                                    Text(
+                                        '$i',
+                                        style: TextStyle(
+                                            color: blockDiameterSize == i ? colors[selectedColorIdx] : Colors.black38,
+                                            fontSize: 30
+                                        )
+                                    )
+                                ]
                             )
                         )
                     ]
@@ -423,6 +479,10 @@ class GameState extends State<Game> {
         }
 
         return sizes;
+    }
+
+    isWhiteColor(int index) {
+        return colors[index] == Colors.white;
     }
 
     isColorNeededBlackFont(int index) {
@@ -435,6 +495,12 @@ class GameState extends State<Game> {
     }
 
     paint(int row, int col) {
+        
+        lastPainting.add([]);
+        board.forEach((rowCell) { 
+            lastPainting.last.add(List.from(rowCell));
+        });
+
         if (shapes[selectedShapeIdx] == Shape.ROW) {
             for (int i = 0; i < board[row].length; i++) {
                 board[row][i] = selectedColorIdx + 1;
@@ -466,6 +532,15 @@ class GameState extends State<Game> {
         });
     }
 
+    undoPainting() {
+        board = [];
+        lastPainting.last.forEach((rowCell) { 
+            board.add(List.from(rowCell));
+        });
+        lastPainting.removeLast();
+
+        setState(() { });
+    }
     validateBoard() {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
@@ -477,14 +552,23 @@ class GameState extends State<Game> {
         }
 
         AudioPlayer.play(AudioList.WIN);
-        
+
+        int rewardHints = 0;
         if (gameMode == GameMode.EASY) {
-            World.continents[continentIdx].countries[countryIdx].isEasySolved = true;
-        } else {
+            if (!World.continents[continentIdx].countries[countryIdx].isEasySolved) {
+                rewardHints = 1;
+            }
+        } else if (gameMode == GameMode.NORMAL) {
+            if (!World.continents[continentIdx].countries[countryIdx].isEasySolved && !World.continents[continentIdx].countries[countryIdx].isNormalSolved) {
+                rewardHints = 3;
+            } else if (!World.continents[continentIdx].countries[countryIdx].isNormalSolved) {
+                rewardHints = 1;
+            }
             World.continents[continentIdx].countries[countryIdx].isNormalSolved = true;
         }
-        
-        int rewardHints = 1;
+        World.continents[continentIdx].countries[countryIdx].isEasySolved = true;
+        hints += rewardHints;
+
         if (rewardHints > 0) {
             final snackBar = SnackBar(
                 duration: Duration(milliseconds: 500),
@@ -495,9 +579,9 @@ class GameState extends State<Game> {
 
         World.storeData();
 
-        // Future.delayed(Duration(milliseconds: 1000), () {
-        //     Navigator.of(context).pop(true);
-        // });
+        Future.delayed(Duration(milliseconds: 1000), () {
+            Navigator.of(context).pop(true);
+        });
     }
 
     printBoard() {
