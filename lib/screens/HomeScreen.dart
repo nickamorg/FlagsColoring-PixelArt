@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
 class HomeState extends State<Home> with TickerProviderStateMixin {
     late final AnimationController controller = AnimationController(
         vsync: this,
-        duration: Duration(seconds: 4)
+        duration: Duration(seconds: 6)
     )..repeat();
 
 

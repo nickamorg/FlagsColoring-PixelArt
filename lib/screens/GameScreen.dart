@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flagscoloring_pixelart/AdManager.dart';
 import 'package:flagscoloring_pixelart/AudioPlayer.dart';
 import 'package:flagscoloring_pixelart/ExpandableFab.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +8,7 @@ import 'package:flagscoloring_pixelart/AppTheme.dart';
 import 'package:flagscoloring_pixelart/library.dart';
 import 'package:flagscoloring_pixelart/World.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class GameScreen extends StatelessWidget {
     final int continentIdx;
@@ -35,6 +39,7 @@ class GameState extends State<Game> {
     List<Color?> actualColors = [];
     int selectedShapeIdx = 0;
     List<List<List<int>>> lastPainting = [];
+    List<Pixel> revealedPixels = [];
 
     @override
     initState() {
@@ -82,43 +87,124 @@ class GameState extends State<Game> {
                         fit: BoxFit.cover
                     )
                 ),
-                child: Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Row(
-                        children: [
-                            Container(
-                                height: MediaQuery.of(context).size.height - 40,
-                                width: (MediaQuery.of(context).size.height - 40) / height * width,
-                                child: InteractiveViewer(
-                                    minScale: 1,
-                                    maxScale: 3,
-                                    child: GridView.count(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        crossAxisCount: width,
-                                        children: getBoard()
-                                    )
-                                )
-                            ),
-                            Expanded(
-                                child: Center(
-                                    child: Padding(
-                                        padding: EdgeInsets.only(top: 20),
-                                        child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                                getColorsCard(),
-                                                SizedBox(height: 10),
-                                                getShapeCard(),
-                                                SizedBox(height: 10),
-                                                getBlockSizeCard()
-                                            ]
+                child: Stack(
+                    children: [
+                        getColumnNumbers(),
+                        getRowNumbers(),
+                        Padding(
+                            padding: EdgeInsets.only(left: 20, top: 20),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    Container(
+                                        height: boardHeight,
+                                        width: boardWidth,
+                                        child: InteractiveViewer(
+                                            minScale: 1,
+                                            maxScale: 3,
+                                            child: GridView.count(
+                                                physics: NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                crossAxisCount: width,
+                                                children: getBoard()
+                                            )
+                                        )
+                                    ),
+                                    Expanded(
+                                        child: Align(
+                                            alignment: Alignment.topRight,
+                                            child: Padding(
+                                                padding: EdgeInsets.only(right: 10),
+                                                child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                        getColorsCard(),
+                                                        SizedBox(height: 10),
+                                                        getShapeCard(),
+                                                        SizedBox(height: 10),
+                                                        getBlockSizeCard()
+                                                    ]
+                                                )
+                                            )
                                         )
                                     )
-                                )
+                                ]
                             )
-                        ]
+                        )
+                    ]
+                )
+            )
+        );
+    }
+
+    get boardHeight {
+        if ((MediaQuery.of(context).size.height - 40) / height * width > MediaQuery.of(context).size.width - 120) {
+            return (MediaQuery.of(context).size.width - 180) * height / width;
+        }
+        return MediaQuery.of(context).size.height - 40;
+    }
+
+    get boardWidth {
+        return boardHeight / height * width;
+    }
+
+    Padding getColumnNumbers() {
+        List<Widget> numbers = [];
+
+        for ( int i = 0; i < width; i++) {
+            numbers.add(
+                Container(
+                    width: boardHeight / height,
+                    height: boardHeight / height,
+                    child: Center(
+                    child: Text(
+                            '${i + 1}',
+                            style: TextStyle(
+                                fontSize: 10
+                            )
+                        )
                     )
+                )
+            );
+        }
+
+        return Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Container(
+                width: boardWidth,
+                child: Row(
+                    children: numbers
+                )
+            )
+        );
+    }
+
+    Padding getRowNumbers() {
+        List<Widget> numbers = [];
+
+        for ( int i = 0; i < height; i++) {
+            numbers.add(
+                Container(
+                    width: boardHeight / height,
+                    height: boardHeight / height,
+                    child: Center(
+                    child: Text(
+                            '${i + 1}',
+                            style: TextStyle(
+                                fontSize: 10
+                            )
+                        )
+                    )
+                )
+            );
+        }
+
+        return Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Container(
+                height: boardHeight,
+                child: Column(
+                    children: numbers
                 )
             )
         );
@@ -164,7 +250,7 @@ class GameState extends State<Game> {
             verticalOffset: 30,
             preferBelow: false,
             child: ActionButton(
-                onPressed: () => { },
+                onPressed: showHintsDialog,
                 icon: SvgPicture.asset(
                     'assets/actions/hint.svg',
                     height: 25
@@ -393,7 +479,7 @@ class GameState extends State<Game> {
                     pixels[i][j] == 0 ? SizedBox.shrink() :
                     Center(
                         child: TextButton(
-                            onPressed: () => { paintBoard(i, j) },
+                            onPressed: revealedPixels.contains(new Pixel(row: i, col: j)) ? null : () => { paintBoard(i, j) },
                             style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero
                             ),
@@ -424,7 +510,7 @@ class GameState extends State<Game> {
                 );
             }
         }
-        
+
         return cells;
     }
 
@@ -557,7 +643,17 @@ class GameState extends State<Game> {
         stackBoardStatus();
         board = List.generate(height, (i) => List.filled(width, -1, growable: true), growable: true);
 
+        placeRevealdPixels();
+
         setState(() { });
+    }
+
+    void placeRevealdPixels() {
+        if (revealedPixels.isNotEmpty) {
+            revealedPixels.forEach((pixel) { 
+                board[pixel.row][pixel.col] = pixels[pixel.row][pixel.col];
+            });
+        }
     }
 
     void undoPainting() {
@@ -566,6 +662,8 @@ class GameState extends State<Game> {
             board.add(List.from(rowCell));
         });
         lastPainting.removeLast();
+
+        placeRevealdPixels();
 
         setState(() { });
     }
@@ -626,6 +724,272 @@ class GameState extends State<Game> {
         print(str.substring(0, str.length ~/ 2));
         print(str.substring(str.length ~/ 2));
     }
+
+    Future<void> showHintsDialog() {
+        return showGeneralDialog(
+            context: context,
+            barrierDismissible: true,
+            barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+            barrierColor: Colors.black54,
+            transitionDuration: const Duration(milliseconds: 200),
+            pageBuilder: (BuildContext buildContext, Animation animation, Animation secondaryAnimation) {
+                return WillPopScope(
+                    onWillPop: () {
+                        return Future.value(true);
+                    },
+                    child: StatefulBuilder(
+                        builder: (context, setState) {
+                            Widget hintButton(int minHints, String txt, Function action) {
+                                return Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 5),
+                                    child: Opacity(
+                                        opacity: !isBoardSolved() && hints >= minHints ? 1 : 0.6,
+                                        child: TextButton(
+                                            onPressed: !isBoardSolved() && hints >= minHints ? () {
+                                                hints -= minHints; 
+                                                action();
+                                                World.storeData();
+
+                                                Navigator.pop(context);
+                                            } : null,
+                                            child: hintContainer(txt, null, minHints.toString())
+                                        )
+                                    )
+                                );
+                            }
+
+                            GridView getHintsDialog() {
+                                return GridView.count(
+                                    shrinkWrap: true,
+                                    primary: false,
+                                    childAspectRatio: 4,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                    crossAxisCount: 2,
+                                    children: [
+                                        hintButton(1, 'Paint Row', paintRow),
+                                        hintButton(1, 'Paint Column', paintColumn),
+                                        hintButton(5, 'Place Color', placeColor),
+                                        TextButton(
+                                            onPressed: () {
+                                                setState(() {
+                                                    getReward(RewardedAd rewardedAd, RewardItem rewardItem) {
+                                                        hints += 9;
+                                                        World.storeData();
+                                                    }
+                                                    AdManager.showRewardedAd(getReward);
+                                                });
+                                            },
+                                            child: hintContainer(null, Icons.video_call, '+9')
+                                        )
+                                    ]
+                                );
+                            }
+
+                            return Align(
+                                alignment: Alignment.topCenter,
+                                child: Padding(
+                                    padding: EdgeInsets.all(40),
+                                    child: Material(
+                                        type: MaterialType.transparency,
+                                        child: Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context).size.height,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15),
+                                                color: AppTheme.MAIN_COLOR
+                                            ),
+                                            child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                    Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+                                                            Container(
+                                                                padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                                                                height: 35,
+                                                                child: Row(
+                                                                    children: [
+                                                                        SizedBox(
+                                                                            width: 20,
+                                                                            child: Image(image: AssetImage('assets/hint.png'), fit: BoxFit.contain)
+                                                                        ),
+                                                                        SizedBox(
+                                                                            width: 10
+                                                                        ),
+                                                                        Text(
+                                                                            hints.toString(),
+                                                                            style: TextStyle(
+                                                                                fontFamily: 'Segoe UI',
+                                                                                fontSize: 20,
+                                                                                color: Color(0xFFFFD517),
+                                                                                fontWeight: FontWeight.w700,
+                                                                            )
+                                                                        )
+                                                                    ]
+                                                                ),
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors.white,
+                                                                    shape: BoxShape.rectangle,
+                                                                    borderRadius: BorderRadius.all(Radius.circular(30))
+                                                                )
+                                                            )
+                                                        ]
+                                                    ),
+                                                    Expanded(
+                                                        child: Center(
+                                                            child: Padding(
+                                                                padding: EdgeInsets.all(15),
+                                                                child: getHintsDialog()
+                                                            )
+                                                        )
+                                                    )
+                                                ]
+                                            )
+                                        )
+                                    )
+                                )
+                            );
+                        }
+                    )
+                );
+            }
+        ).then((value) => setState(() { }));
+    }
+
+    void paintRow() {
+        int row = 0;
+        do {
+            row = Random().nextInt(height);
+        } while (!hasRowEmptyPixels(row));
+
+        for (int col = 0; col < width; col++) {
+            board[row][col] = pixels[row][col];
+            revealedPixels.add(new Pixel(row: row, col: col));
+        }
+    }
+
+    bool hasRowEmptyPixels(int row) {
+        for (int col = 0; col < width; col++) {
+            if (board[row][col] != pixels[row][col]) return true;
+        }
+
+        return false;
+    }
+
+    void paintColumn() {
+        int col = 0;
+        do {
+            col = Random().nextInt(height);
+        } while (!hasColumnEmptyPixels(col));
+
+        for (int row = 0; row < height; row++) {
+            board[row][col] = pixels[row][col];
+            revealedPixels.add(new Pixel(row: row, col: col));
+        }
+    }
+
+    bool hasColumnEmptyPixels(int col) {
+        for (int row = 0; row < height; row++) {
+            if (board[row][col] != pixels[row][col]) return true;
+        }
+
+        return false;
+    }
+
+    void placeColor() {
+        int colorIdx = 0;
+        do {
+            colorIdx = Random().nextInt(colors.length);
+        } while (!hasColorEmptyPixels(colorIdx));
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (pixels[i][j] == colorIdx + 1) {
+                    board[i][j] = pixels[i][j];
+                    revealedPixels.add(new Pixel(row: i, col: j));
+                }
+            }
+        }
+    }
+
+    bool hasColorEmptyPixels(int colorIdx) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (pixels[i][j] == colorIdx + 1 && board[i][j] != pixels[i][j]) return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool isBoardSolved() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (board[i][j] != pixels[i][j]) return false;
+            }
+        }
+
+        return true;
+    }
+
+    Widget hintContainer(String? txt, IconData? icon, String hints) {
+        return Center(
+            child: Container(
+                height: 50,
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                            txt != null ?
+                            Text(
+                                txt,
+                                style: TextStyle(
+                                    fontFamily: 'Segoe UI',
+                                    fontSize: 20,
+                                    color: AppTheme.MAIN_COLOR,
+                                    fontWeight: FontWeight.w700
+                                )
+                            )
+                            :
+                            Icon(
+                                icon,
+                                color: AppTheme.THIRD_COLOR,
+                                size: 40
+                            ),
+                            Row(
+                                children: [
+                                    Text(
+                                        hints,
+                                        style: TextStyle(
+                                            fontFamily: 'Segoe UI',
+                                            fontSize: 20,
+                                            color: Color(0xFFFFD517),
+                                            fontWeight: FontWeight.w700,
+                                        ),
+                                        textAlign: TextAlign.center
+                                    ),
+                                    SizedBox(width: 5),
+                                    SizedBox(
+                                        width: 20,
+                                        child: Image(image: AssetImage('assets/hint.png'), fit: BoxFit.contain)
+                                    )
+                                ]
+                            )
+                        ]
+                    )
+                ),
+                decoration: new BoxDecoration(
+                    color:  txt != null ? Colors.white : AppTheme.SECONDARY_COLOR,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.all(Radius.circular(30))
+                )
+            )
+        );
+    }
 }
 
 class Block extends StatelessWidget {
@@ -650,6 +1014,17 @@ class Block extends StatelessWidget {
             )
         );
     }
+}
+
+class Pixel {
+    int row;
+    int col;
+
+    Pixel({required this.row, required this.col});
+
+    bool operator ==(cords) => cords is Pixel && row == cords.row && col == cords.col;
+
+    int get hashCode => row.hashCode + col.hashCode;
 }
 
 class Game extends StatefulWidget {
