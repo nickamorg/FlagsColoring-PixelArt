@@ -45,6 +45,8 @@ class GameState extends State<Game> {
     initState() {
         super.initState();
 
+        AdManager.loadRewardedAd();
+
         continentIdx = widget.continentIdx;
         countryIdx = widget.countryIdx;
         gameMode = widget.gameMode;
@@ -83,7 +85,7 @@ class GameState extends State<Game> {
                     ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
-                        image: AssetImage("assets/countries/${World.continents[continentIdx].title}/${World.continents[continentIdx].countries[countryIdx].title}.png"),
+                        image: AssetImage('assets/countries/${World.continents[continentIdx].title}/${World.continents[continentIdx].countries[countryIdx].title}.png'),
                         fit: BoxFit.cover
                     )
                 ),
@@ -215,11 +217,15 @@ class GameState extends State<Game> {
             message: 'Clear Board',
             verticalOffset: 30,
             preferBelow: false,
-            child: ActionButton(
-                onPressed: clearBoard,
-                icon: SvgPicture.asset(
-                    'assets/actions/clear.svg',
-                    height: 25
+            child: AnimatedOpacity(
+                opacity: lastPainting.isEmpty || isBoardClear ? 0.5 : 1,
+                duration: Duration(milliseconds: 500),
+                child: ActionButton(
+                    onPressed: lastPainting.isEmpty || isBoardClear ? null : clearBoard,
+                    icon: SvgPicture.asset(
+                        'assets/actions/clear.svg',
+                        height: 25
+                    )
                 )
             )
         );
@@ -280,23 +286,28 @@ class GameState extends State<Game> {
                 borderRadius: BorderRadius.circular(15)
             ),
             color: Colors.white,
-            child: RotatedBox(
-                quarterTurns: 3,
-                child: Container(
-                    height: 130,
-                    width: 80,
-                    child: ListWheelScrollView.useDelegate(
-                        physics: FixedExtentScrollPhysics(),
-                        perspective: 0.01,
-                        itemExtent: 80,
-                        childDelegate: ListWheelChildLoopingListDelegate(
-                            children: getColors()
-                        ),
-                        onSelectedItemChanged: (index) {
-                            setState(() {
-                                selectedColorIdx = index;
-                            });
-                        }
+            child: Tooltip(
+                verticalOffset: 45,
+                preferBelow: false,
+                message: "Painter's Color",
+                child: RotatedBox(
+                    quarterTurns: 3,
+                    child: Container(
+                        height: 130,
+                        width: 80,
+                        child: ListWheelScrollView.useDelegate(
+                            physics: FixedExtentScrollPhysics(),
+                            perspective: 0.01,
+                            itemExtent: 80,
+                            childDelegate: ListWheelChildLoopingListDelegate(
+                                children: getColors()
+                            ),
+                            onSelectedItemChanged: (index) {
+                                setState(() {
+                                    selectedColorIdx = index;
+                                });
+                            }
+                        )
                     )
                 )
             )
@@ -309,31 +320,44 @@ class GameState extends State<Game> {
                 borderRadius: BorderRadius.circular(15)
             ),
             color: Colors.white,
-            child: RotatedBox(
-                quarterTurns: 3,
-                child: Container(
-                    height: 130,
-                    width: 80,
-                    child: ListWheelScrollView.useDelegate(
-                        physics: FixedExtentScrollPhysics(),
-                        perspective: 0.01,
-                        itemExtent: 80,
-                        childDelegate: ListWheelChildLoopingListDelegate(
-                            children: [
-                                getBlockShape(),
-                                getColumnShape(),
-                                getRowShape(),
-                            ]
-                        ),
-                        onSelectedItemChanged: (index) {
-                            setState(() {
-                                selectedShapeIdx = index;
-                            });
-                        }
+            child: Tooltip(
+                verticalOffset: 45,
+                preferBelow: false,
+                message: shapeTooltipMsg,
+                child: RotatedBox(
+                    quarterTurns: 3,
+                    child: Container(
+                        height: 130,
+                        width: 80,
+                        child: ListWheelScrollView.useDelegate(
+                            physics: FixedExtentScrollPhysics(),
+                            perspective: 0.01,
+                            itemExtent: 80,
+                            childDelegate: ListWheelChildLoopingListDelegate(
+                                children: [
+                                    getBlockShape(),
+                                    getColumnShape(),
+                                    getRowShape(),
+                                ]
+                            ),
+                            onSelectedItemChanged: (index) {
+                                setState(() {
+                                    selectedShapeIdx = index;
+                                });
+                            }
+                        )
                     )
                 )
             )
         );
+    }
+
+    String get shapeTooltipMsg {
+        switch(shapes[selectedShapeIdx]) {
+            case Shape.BLOCK: return 'Paint a $blockDiameterSize x $blockDiameterSize Block';
+            case Shape.COLUMN: return 'Paint a whole Column';
+            case Shape.ROW: return 'Paint a whole Row';
+        }
     }
 
     RotatedBox getBlockShape() {
@@ -444,23 +468,28 @@ class GameState extends State<Game> {
                 color: Colors.white,
                 child: Column(
                     children: [
-                        RotatedBox(
-                            quarterTurns: 3,
-                            child: Container(
-                                height: 130,
-                                width: 55,
-                                child: ListWheelScrollView.useDelegate(
-                                    physics: shapes[selectedShapeIdx] == Shape.BLOCK ? FixedExtentScrollPhysics() : NeverScrollableScrollPhysics() ,
-                                    perspective: 0.01,
-                                    itemExtent: 40,
-                                    childDelegate: ListWheelChildLoopingListDelegate(
-                                        children: getBlockDiagonalSizes()
-                                    ),
-                                    onSelectedItemChanged: (index) {
-                                        setState(() {
-                                            blockDiameterSize = index * 2 + 1;
-                                        });
-                                    }
+                        Tooltip(
+                            verticalOffset: 35,
+                            preferBelow: false,
+                            message: 'Diameter of the Block',
+                            child: RotatedBox(
+                                quarterTurns: 3,
+                                child: Container(
+                                    height: 130,
+                                    width: 55,
+                                    child: ListWheelScrollView.useDelegate(
+                                        physics: shapes[selectedShapeIdx] == Shape.BLOCK ? FixedExtentScrollPhysics() : NeverScrollableScrollPhysics() ,
+                                        perspective: 0.01,
+                                        itemExtent: 40,
+                                        childDelegate: ListWheelChildLoopingListDelegate(
+                                            children: getBlockDiagonalSizes()
+                                        ),
+                                        onSelectedItemChanged: (index) {
+                                            setState(() {
+                                                blockDiameterSize = index * 2 + 1;
+                                            });
+                                        }
+                                    )
                                 )
                             )
                         )
@@ -648,6 +677,17 @@ class GameState extends State<Game> {
         setState(() { });
     }
 
+    bool get isBoardClear {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (revealedPixels.contains(new Pixel(row: i, col: j))) continue;
+                if (board[i][j] != -1) return false;
+            }
+        }
+
+        return true;
+    }
+
     void placeRevealdPixels() {
         if (revealedPixels.isNotEmpty) {
             revealedPixels.forEach((pixel) { 
@@ -670,7 +710,7 @@ class GameState extends State<Game> {
 
     void validateBoard() {
         for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
+            for (int j = 0; j < board[i].length; j++) {
                 if (pixels[i][j] == 0) {
                     continue;
                 } else if (board[i][j] == -1) {
@@ -704,6 +744,10 @@ class GameState extends State<Game> {
         hints += rewardHints;
 
         if (rewardHints > 0) {
+            if (World.continents[continentIdx].isNormalSolved) {
+                rewardHints += World.continents[continentIdx].countries.length;
+            }
+
             final snackBar = SnackBar(
                 duration: Duration(milliseconds: 500),
                 content: Text("+$rewardHints hint${rewardHints > 1 ? 's' : ''}")
@@ -806,7 +850,7 @@ class GameState extends State<Game> {
                                                         mainAxisAlignment: MainAxisAlignment.end,
                                                         children: [
                                                             Container(
-                                                                padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                                                                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                                                                 height: 35,
                                                                 child: Row(
                                                                     children: [
@@ -831,7 +875,10 @@ class GameState extends State<Game> {
                                                                 decoration: BoxDecoration(
                                                                     color: Colors.white,
                                                                     shape: BoxShape.rectangle,
-                                                                    borderRadius: BorderRadius.all(Radius.circular(30))
+                                                                    borderRadius: BorderRadius.only(
+                                                                        topRight: Radius.circular(15),
+                                                                        bottomLeft: Radius.circular(15)
+                                                                    )
                                                                 )
                                                             )
                                                         ]

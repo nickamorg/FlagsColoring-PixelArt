@@ -14,12 +14,12 @@ const Map<String, Color> mapColors = {
     'White': Colors.white,
     'Yellow': Colors.yellow,
     'Brown': Colors.brown,
-    'Grey': Colors.grey,
+    'Grey': Color(0xFFE1E3E3),
     'Orange': Colors.orange,
-    'Light Blue': Colors.lightBlue,
-    'Light Brown': Colors.brown,
-    'Dark Brown': Colors.brown,
-    'Dark Grey': Colors.grey
+    'Light Blue': Color(0Xff87C0EA),
+    'Light Brown': Color(0xFFD9BB7B),
+    'Dark Grey': Color(0xFF626361),
+    'Purple': Colors.purple
 };
 
 const List<String> COLORS = [];

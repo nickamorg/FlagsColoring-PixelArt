@@ -32,7 +32,7 @@ class WorldState extends State<WorldStatefull> {
                     ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
-                        image: AssetImage("assets/world.png"),
+                        image: AssetImage('assets/world.png'),
                         fit: BoxFit.cover
                     )
                 ),

@@ -1,10 +1,10 @@
+import 'package:flagscoloring_pixelart/AdManager.dart';
 import 'package:flagscoloring_pixelart/AudioPlayer.dart';
 import 'package:flagscoloring_pixelart/screens/WorldScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flagscoloring_pixelart/AppTheme.dart';
 import 'package:flagscoloring_pixelart/World.dart';
-// import 'package:flagscoloring_pixelart/AdManager.dart';
 import 'package:flagscoloring_pixelart/screens/ContactScreen.dart';
 import 'package:flagscoloring_pixelart/screens/StatisticsScreen.dart';
 import 'package:launch_review/launch_review.dart';
@@ -33,7 +33,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
         World.init().then((value) => World.loadDataStorage());
 
-        // AdManager.initGoogleMobileAds();
+        AdManager.initGoogleMobileAds();
     }
 
     @override
@@ -57,7 +57,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
                     ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
-                        image: AssetImage("assets/world.png"),
+                        image: AssetImage('assets/world.png'),
                         fit: BoxFit.cover
                     )
                 ),
@@ -100,12 +100,12 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
                         Positioned(
                             top: 15,
                             right: 10,
-                            child: CircleButton(icon: Icons.settings_suggest, screen: () => ContactScreen())
+                            child: CircleButton(image: 'idea', screen: () => ContactScreen())
                         ),
                         Positioned(
                             bottom: 15,
                             right: 10,
-                            child: CircleButton(icon: Icons.favorite, action: () => LaunchReview.launch(androidAppId: "com.zirconworks.flagscoloring_pixelart"))
+                            child: CircleButton(image: 'like', action: () => LaunchReview.launch(androidAppId: 'com.zirconworks.flagscoloring_pixelart'))
                         ),
                         Positioned(
                             bottom: 15,
@@ -138,9 +138,10 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 class CircleButton extends StatelessWidget {
     final Function? screen;
     final Function? action;
-    final IconData icon;
+    final IconData? icon;
+    final String? image;
     
-    CircleButton({required this.icon, this.screen, this.action});
+    CircleButton({this.icon, this.image, this.screen, this.action});
 
     @override
     Widget build(BuildContext context) {
@@ -154,10 +155,16 @@ class CircleButton extends StatelessWidget {
                 ) : action!()
             },
             fillColor: AppTheme.SECONDARY_COLOR,
-            child: Icon(
+            child: icon != null ? Icon(
                 icon,
                 size: 35,
                 color: AppTheme.THIRD_COLOR
+            ) : Padding(
+                padding: EdgeInsets.all(2.5),
+                child: SvgPicture.asset(
+                    'assets/$image.svg',
+                    height: 30
+                )
             ),
             padding: EdgeInsets.all(15),
             shape: CircleBorder()

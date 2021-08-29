@@ -251,4 +251,4 @@ class World {
 	}
 }
 
-int hints = 23;
+int hints = 24;

@@ -29,7 +29,7 @@ class ContactState extends State<Contact> {
                     ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
-                        image: AssetImage("assets/world.png"),
+                        image: AssetImage('assets/world.png'),
                         fit: BoxFit.cover
                     )
                 ),
@@ -109,7 +109,7 @@ class ContactState extends State<Contact> {
                                                 borderRadius: BorderRadius.circular(20)
                                             ),
                                             child: Container(
-                                                padding: EdgeInsets.all(10),
+                                                padding: EdgeInsets.all(20),
                                                 height: MediaQuery.of(context).size.height - 60,
                                                 width: (MediaQuery.of(context).size.width - 60) / 2,
                                                 child: Column(
@@ -124,7 +124,7 @@ class ContactState extends State<Contact> {
                                                             )
                                                         ),
                                                         Text(
-                                                            'Does something annoy you?',
+                                                            'Tell us about it!',
                                                             style: TextStyle(
                                                                 color: Colors.white,
                                                                 fontSize: 20,
@@ -132,7 +132,7 @@ class ContactState extends State<Contact> {
                                                             )
                                                         ),
                                                         Text(
-                                                            'Tell us about it!',
+                                                            'We are always open to suggestions in order to provide the best experience.',
                                                             style: TextStyle(
                                                                 color: Colors.white,
                                                                 fontSize: 20,

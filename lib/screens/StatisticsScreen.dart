@@ -29,7 +29,7 @@ class StatisticsState extends State<Statistics> {
                     ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
-                        image: AssetImage("assets/world.png"),
+                        image: AssetImage('assets/world.png'),
                         fit: BoxFit.cover
                     )
                 ),

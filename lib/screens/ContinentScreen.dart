@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flagscoloring_pixelart/AdManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flagscoloring_pixelart/World.dart';
 import 'package:flagscoloring_pixelart/library.dart';
@@ -23,6 +26,8 @@ class ContinentState extends State<ContinentStatefull> {
     void initState() {
         super.initState();
 
+        AdManager.loadInterstitialAd();
+
         continentIdx = widget.continentIdx;
     }
 
@@ -41,7 +46,7 @@ class ContinentState extends State<ContinentStatefull> {
                     ),
                     image: DecorationImage(
                         colorFilter: ColorFilter.linearToSrgbGamma(),
-                        image: AssetImage("assets/continents_background/${World.continents[continentIdx].title}.png"),
+                        image: AssetImage('assets/continents_background/${World.continents[continentIdx].title}.png'),
                         fit: BoxFit.cover
                     )
                 ),
@@ -127,14 +132,7 @@ class ContinentState extends State<ContinentStatefull> {
                                                                 padding: EdgeInsets.all(5)
                                                             ),
                                                             onPressed: () => {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) => GameScreen(continentIdx: continentIdx, countryIdx: index, gameMode: GameMode.EASY)
-                                                                    )
-                                                                ).then((value) {
-                                                                    setState(() { });
-                                                                })
+                                                                navigate2GameScreen(index, GameMode.EASY)
                                                             },
                                                             child: Container(
                                                                 padding: EdgeInsets.all(10),
@@ -166,14 +164,7 @@ class ContinentState extends State<ContinentStatefull> {
                                                                 padding: EdgeInsets.all(5)
                                                             ),
                                                             onPressed: () => {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) => GameScreen(continentIdx: continentIdx, countryIdx: index, gameMode: GameMode.NORMAL)
-                                                                    )
-                                                                ).then((value) {
-                                                                    setState(() { });
-                                                                })
+                                                                navigate2GameScreen(index, GameMode.NORMAL)
                                                             },
                                                             child: Container(
                                                                 padding: EdgeInsets.all(10),
@@ -302,6 +293,41 @@ class ContinentState extends State<ContinentStatefull> {
                 ]
             )
         );
+    }
+
+    navigate2GameScreen(int countryIdx, GameMode gameMode) {
+        int posibilityRange = 4;
+        switch(gameMode) {
+            case GameMode.EASY: {
+                posibilityRange = 6;
+                break;
+            }
+            case GameMode.NORMAL: {
+                posibilityRange = 4;
+                break;
+            }
+        }
+
+        if (Random().nextInt(posibilityRange) == 3) {
+            AdManager.showInterstitialAd();
+
+            Future.delayed(Duration(milliseconds: 2000), () {
+                navigator(countryIdx, gameMode);
+            });
+        } else {
+            navigator(countryIdx, gameMode);
+        }
+    }
+
+    navigator(int countryIdx, GameMode gameMode) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GameScreen(continentIdx: continentIdx, countryIdx: countryIdx, gameMode: gameMode)
+            )
+        ).then((value) {
+            setState(() { });
+        });
     }
 }
 
