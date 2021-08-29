@@ -911,14 +911,14 @@ class GameState extends State<Game> {
         } while (!hasRowEmptyPixels(row));
 
         for (int col = 0; col < width; col++) {
-            board[row][col] = pixels[row][col];
+            board[row][col] = colors.indexWhere((color) => color == actualColors[pixels[row][col] - 1]) + 1;
             revealedPixels.add(new Pixel(row: row, col: col));
         }
     }
 
     bool hasRowEmptyPixels(int row) {
         for (int col = 0; col < width; col++) {
-            if (board[row][col] != pixels[row][col]) return true;
+            if (board[row][col] != colors.indexWhere((color) => color == actualColors[pixels[row][col] - 1]) + 1) return true;
         }
 
         return false;
@@ -931,14 +931,14 @@ class GameState extends State<Game> {
         } while (!hasColumnEmptyPixels(col));
 
         for (int row = 0; row < height; row++) {
-            board[row][col] = pixels[row][col];
+            board[row][col] = colors.indexWhere((color) => color == actualColors[pixels[row][col] - 1]) + 1;
             revealedPixels.add(new Pixel(row: row, col: col));
         }
     }
 
     bool hasColumnEmptyPixels(int col) {
         for (int row = 0; row < height; row++) {
-            if (board[row][col] != pixels[row][col]) return true;
+            if (board[row][col] != colors.indexWhere((color) => color == actualColors[pixels[row][col] - 1]) + 1) return true;
         }
 
         return false;
@@ -952,8 +952,8 @@ class GameState extends State<Game> {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (pixels[i][j] == colorIdx + 1) {
-                    board[i][j] = pixels[i][j];
+                if (colorIdx == colors.indexWhere((color) => color == actualColors[pixels[i][j] - 1])) {
+                    board[i][j] = colors.indexWhere((color) => color == actualColors[pixels[i][j] - 1]) + 1;
                     revealedPixels.add(new Pixel(row: i, col: j));
                 }
             }
@@ -963,7 +963,7 @@ class GameState extends State<Game> {
     bool hasColorEmptyPixels(int colorIdx) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (pixels[i][j] == colorIdx + 1 && board[i][j] != pixels[i][j]) return true;
+                if (colorIdx == colors.indexWhere((color) => color == actualColors[pixels[i][j] - 1]) && board[i][j] != colors.indexWhere((color) => color == actualColors[pixels[i][j] - 1]) + 1) return true;
             }
         }
 
@@ -973,7 +973,7 @@ class GameState extends State<Game> {
     bool isBoardSolved() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (board[i][j] != pixels[i][j]) return false;
+                if (board[i][j] != colors.indexWhere((color) => color == actualColors[pixels[i][j] - 1]) + 1) return false;
             }
         }
 

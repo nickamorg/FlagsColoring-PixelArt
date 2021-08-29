@@ -55,7 +55,6 @@ flutter:
     - assets/statistics.svg
     - assets/idea.svg
     - assets/like.svg
-    - assets/heart.svg
 
     # Actions
     - assets/actions/actions.svg
