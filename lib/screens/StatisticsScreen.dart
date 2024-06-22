@@ -238,7 +238,7 @@ class StatisticsState extends State<Statistics> {
 
     String getTotalText(Continent continent) {
         if (continent.title == 'World') {
-            return 'Total: ${World.totalSolvedStars }/${World.totalStars}';
+            return 'Total: ${World.totalSolvedStars}/${World.totalStars}';
         } else {
             return 'Total: ${continent.totalSolvedStars}/${continent.totalStars}';
         }
